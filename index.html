@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiếng Anh Lớp 6 – Thầy Du Gia Văn</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --c-bg-from: #eef2ff;
+      --c-bg-mid: #f5f0ff;
+      --c-bg-to: #fdf2f8;
+      --c-glass: rgba(255, 255, 255, 0.58);
+      --c-glass-border: rgba(255, 255, 255, 0.78);
+      --c-shadow: rgba(99, 82, 180, 0.10);
+      --c-accent: #6352b4;
+      --c-accent2: #e07b5a;
+      --c-success: #16a34a;
+      --c-danger: #dc2626;
+      --c-warning: #d97706;
+      --c-text: #1e1640;
+      --c-muted: #7a6fa8;
+      --c-card-hover: rgba(255, 255, 255, 0.82);
+      --radius: 20px;
+      --radius-sm: 13px;
+      --blur: 20px;
+      --transition: 0.32s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--c-text);
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--c-bg-from) 0%, var(--c-bg-mid) 50%, var(--c-bg-to) 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, rgba(140, 110, 255, 0.20) 0%, transparent 70%);
+      top: -140px;
+      right: -100px;
+    }
+
+    body::after {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(255, 150, 100, 0.15) 0%, transparent 70%);
+      bottom: -120px;
+      left: -80px;
+    }
+
+    .glass {
+      background: var(--c-glass);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      border: 1px solid var(--c-glass-border);
+      box-shadow: 0 8px 36px var(--c-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    /* ── Page system: use position:fixed so pages stack, not scroll ── */
+    .page {
+      /* Quan trọng: Sử dụng fixed nhưng phải ẩn hoàn toàn khi không active */
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: none;
+      /* Mặc định ẩn */
+      opacity: 0;
+      /* Mặc định trong suốt để bổ trợ cho animation */
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--c-bg, #fff);
+      /* Thêm nền để che các lớp phía sau */
+    }
+
+    .page.active {
+      display: block;
+      z-index: 10;
+      /* Đưa trang đang xem lên lớp trên cùng */
+      animation: fadeIn .42s ease forwards;
+    }
+
+    /* Giữ nguyên các keyframes của thầy */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Credit bar ── */
+    .credit-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
+      padding: .4rem 1rem;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.88);
+      font-size: .7rem;
+      color: var(--c-muted);
+      font-weight: 500;
+      letter-spacing: .02em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .credit-bar .credit-name {
+      font-weight: 700;
+      background: linear-gradient(90deg, #6352b4, #e07b5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ══ LANDING ══ */
+    #page-landing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 2rem 3.8rem;
+      min-height: 100vh;
+    }
+
+    .landing-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, rgba(99, 82, 180, .13), rgba(224, 123, 90, .12));
+      border: 1px solid rgba(99, 82, 180, .24);
+      color: var(--c-accent);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .35rem 1.1rem;
+      border-radius: 50px;
+      margin-bottom: 1.6rem;
+      animation: slideUp .5s ease .1s both;
+    }
+
+    .landing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, #2a1a7a 0%, #6352b4 45%, #e07b5a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: slideUp .5s ease .2s both;
+    }
+
+    .landing-subtitle {
+      margin-top: 1.1rem;
+      font-size: clamp(.92rem, 2.5vw, 1.1rem);
+      color: var(--c-muted);
+      font-weight: 400;
+      max-width: 440px;
+      line-height: 1.65;
+      animation: slideUp .5s ease .3s both;
+    }
+
+    .landing-features {
+      display: flex;
+      gap: .55rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.8rem;
+      animation: slideUp .5s ease .4s both;
+    }
+
+    .feature-chip {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      padding: .3rem .95rem;
+      border-radius: 50px;
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--c-muted);
+    }
+
+    .btn-start {
+      margin-top: 2.4rem;
+      padding: 1rem 3rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #6352b4 0%, #4a2fa3 100%);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(99, 82, 180, .38), 0 2px 0 rgba(255, 255, 255, .15) inset;
+      transition: var(--transition);
+      animation: slideUp .5s ease .5s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-start::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .18), transparent);
+      border-radius: inherit;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(99, 82, 180, .45), 0 2px 0 rgba(255, 255, 255, .15) inset;
+    }
+
+    .btn-start:active {
+      transform: translateY(0);
+    }
+
+    /* ══ INNER PAGES ══ */
+    .inner-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.2rem 1.4rem 4.5rem;
+    }
+
+    .inner-wrap.narrow {
+      max-width: 580px;
+    }
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.8rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--c-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: .4rem .2rem;
+      transition: var(--transition);
+    }
+
+    .btn-back:hover {
+      color: var(--c-accent);
+    }
+
+    .btn-back svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.55rem, 4vw, 2.1rem);
+      font-weight: 700;
+      color: var(--c-text);
+      margin-bottom: .4rem;
+    }
+
+    .section-title span {
+      color: var(--c-accent);
+    }
+
+    .section-sub {
+      font-size: .88rem;
+      color: var(--c-muted);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── Topic grid ── */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 1rem;
+    }
+
+    .topic-card {
+      border-radius: var(--radius-sm);
+      padding: 1.4rem 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(99, 82, 180, .08), rgba(224, 123, 90, .05));
+      border-radius: inherit;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .topic-card:hover {
+      background: var(--c-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px var(--c-shadow);
+    }
+
+    .topic-card:hover::before {
+      opacity: 1;
+    }
+
+    .tc-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, rgba(99, 82, 180, .14), rgba(224, 123, 90, .10));
+      flex-shrink: 0;
+    }
+
+    .tc-name {
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--c-text);
+      line-height: 1.3;
+    }
+
+    .tc-count {
+      font-size: .73rem;
+      color: var(--c-muted);
+    }
+
+    .tc-arrow {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      opacity: 0;
+      color: var(--c-accent);
+      font-size: .85rem;
+      transition: var(--transition);
+      transform: translateX(-4px);
+    }
+
+    .topic-card:hover .tc-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ── Detail card ── */
+    .detail-card {
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      animation: scaleIn .35s ease;
+    }
+
+    .detail-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(99, 82, 180, .15), rgba(224, 123, 90, .12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .dtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--c-text);
+      margin-bottom: 1rem;
+    }
+
+    .theory-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: .55rem;
+    }
+
+    .theory-box {
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.3rem;
+      background: linear-gradient(135deg, rgba(99, 82, 180, .09), rgba(99, 82, 180, .04));
+      border: 1px solid rgba(99, 82, 180, .18);
+      font-size: .88rem;
+      line-height: 1.75;
+      color: var(--c-text);
+      margin-bottom: 1.6rem;
+    }
+
+    .theory-box strong {
+      color: var(--c-accent);
+    }
+
+    .action-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .85rem;
+    }
+
+    .btn-action {
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      transition: var(--transition);
+    }
+
+    .btn-action .ai {
+      font-size: 1.6rem;
+    }
+
+    .btn-action-out {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--c-accent);
+      border: 1.5px solid rgba(99, 82, 180, .28);
+    }
+
+    .btn-action-out:hover {
+      background: rgba(99, 82, 180, .08);
+      border-color: var(--c-accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-action-pri {
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(99, 82, 180, .32);
+    }
+
+    .btn-action-pri:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(99, 82, 180, .40);
+    }
+
+    /* ── Setup ── */
+    .setup-label {
+      font-weight: 700;
+      font-size: .82rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      margin-bottom: .8rem;
+    }
+
+    .choice-row {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.6rem;
+    }
+
+    .choice-btn {
+      flex: 1;
+      min-width: 70px;
+      padding: .7rem .5rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(99, 82, 180, .22);
+      background: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--c-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .2rem;
+      transition: var(--transition);
+    }
+
+    .choice-btn:hover {
+      background: rgba(99, 82, 180, .07);
+      color: var(--c-accent);
+      border-color: rgba(99, 82, 180, .4);
+    }
+
+    .choice-btn.sel {
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(99, 82, 180, .30);
+    }
+
+    .btn-go {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 22px rgba(99, 82, 180, .34);
+      transition: var(--transition);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(99, 82, 180, .42);
+    }
+
+    /* ── Exercise ── */
+    .ex-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: var(--radius-sm);
+      padding: .7rem 1.1rem;
+      margin-bottom: 1rem;
+      font-size: .83rem;
+      font-weight: 600;
+    }
+
+    .ex-topic-lbl {
+      color: var(--c-accent);
+    }
+
+    .ex-prog-lbl {
+      color: var(--c-muted);
+    }
+
+    .prog-track {
+      height: 6px;
+      border-radius: 50px;
+      background: rgba(99, 82, 180, .12);
+      overflow: hidden;
+      margin-bottom: 1.4rem;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #6352b4, #e07b5a);
+      transition: width .5s ease;
+    }
+
+    .q-card {
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      animation: scaleIn .3s ease;
+    }
+
+    .q-type-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      background: rgba(99, 82, 180, .10);
+      padding: .28rem .75rem;
+      border-radius: 50px;
+      margin-bottom: 1.1rem;
+    }
+
+    .diff-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--c-muted);
+      background: rgba(0, 0, 0, .05);
+      padding: .28rem .65rem;
+      border-radius: 50px;
+      margin-bottom: 1.1rem;
+      margin-left: .4rem;
+    }
+
+    .q-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--c-text);
+      line-height: 1.6;
+      margin-bottom: 1.4rem;
+    }
+
+    .mc-options {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1.5px solid rgba(99, 82, 180, .18);
+      border-radius: var(--radius-sm);
+      padding: .85rem 1.1rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: .93rem;
+      color: var(--c-text);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      background: rgba(99, 82, 180, .09);
+      border-color: rgba(99, 82, 180, .38);
+    }
+
+    .opt-btn.sel {
+      background: rgba(99, 82, 180, .13);
+      border-color: var(--c-accent);
+      color: var(--c-accent);
+      font-weight: 600;
+    }
+
+    .opt-btn:disabled {
+      cursor: default;
+    }
+
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(99, 82, 180, .10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--c-accent);
+      flex-shrink: 0;
+    }
+
+    .opt-btn.sel .opt-letter {
+      background: var(--c-accent);
+      color: #fff;
+    }
+
+    .fill-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1.5px solid rgba(99, 82, 180, .22);
+      border-radius: var(--radius-sm);
+      padding: .85rem 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .97rem;
+      font-weight: 500;
+      color: var(--c-text);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .fill-input:focus {
+      border-color: var(--c-accent);
+      box-shadow: 0 0 0 3px rgba(99, 82, 180, .12);
+    }
+
+    .fill-input:disabled {
+      opacity: .65;
+    }
+
+    .ec-sentence {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--c-text);
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(99, 82, 180, .15);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .err-word {
+      background: rgba(220, 38, 38, .10);
+      color: #dc2626;
+      border-radius: 5px;
+      padding: 1px 5px;
+      text-decoration: underline;
+      text-decoration-color: rgba(220, 38, 38, .5);
+      font-style: italic;
+    }
+
+    .reorder-hint {
+      font-size: .8rem;
+      color: var(--c-muted);
+      margin-bottom: .75rem;
+    }
+
+    .drop-zone {
+      min-height: 54px;
+      border: 1.5px dashed rgba(99, 82, 180, .30);
+      border-radius: var(--radius-sm);
+      background: rgba(99, 82, 180, .04);
+      padding: .75rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+
+    .drop-zone:hover {
+      border-color: rgba(99, 82, 180, .5);
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .word-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: .38rem .85rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1.5px solid rgba(99, 82, 180, .22);
+      color: var(--c-accent);
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+
+    .word-chip:hover {
+      background: rgba(99, 82, 180, .10);
+      border-color: var(--c-accent);
+    }
+
+    .word-chip.used {
+      opacity: .28;
+      cursor: not-allowed;
+    }
+
+    .placed-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .35rem .82rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      font-weight: 600;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .placed-chip:hover {
+      opacity: .8;
+    }
+
+    .placed-chip .rem {
+      font-size: .7rem;
+      opacity: .7;
+    }
+
+    .ex-btns {
+      display: flex;
+      justify-content: flex-end;
+      gap: .65rem;
+      margin-top: 1.2rem;
+    }
+
+    .btn-check {
+      padding: .7rem 1.8rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(99, 82, 180, .30);
+      transition: var(--transition);
+    }
+
+    .btn-check:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(99, 82, 180, .38);
+    }
+
+    .btn-nxt {
+      padding: .7rem 1.8rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(22, 163, 74, .28);
+      transition: var(--transition);
+      display: none;
+    }
+
+    .btn-nxt:hover {
+      transform: translateY(-1px);
+    }
+
+    .feedback-wrap {
+      margin-top: 1rem;
+      animation: slideUp .3s ease;
+    }
+
+    .fb-correct {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(22, 163, 74, .10), rgba(22, 163, 74, .05));
+      border: 1.5px solid rgba(22, 163, 74, .28);
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+    }
+
+    .fb-wrong {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(220, 38, 38, .09), rgba(220, 38, 38, .04));
+      border: 1.5px solid rgba(220, 38, 38, .22);
+    }
+
+    .fb-title {
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    .fb-ans {
+      font-size: .83rem;
+      color: var(--c-muted);
+      margin-top: .25rem;
+    }
+
+    .fb-ans strong {
+      color: var(--c-text);
+    }
+
+    .lesson-box {
+      border-radius: var(--radius-sm);
+      padding: .9rem 1.1rem;
+      background: linear-gradient(135deg, rgba(217, 119, 6, .10), rgba(245, 158, 11, .06));
+      border: 1px solid rgba(217, 119, 6, .25);
+      margin-top: .8rem;
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+    }
+
+    .li {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: .05rem;
+    }
+
+    .lb {
+      font-size: .83rem;
+      color: var(--c-text);
+      line-height: 1.6;
+    }
+
+    .ll {
+      font-weight: 700;
+      color: #b45309;
+    }
+
+    /* ── Result ── */
+    .result-hero {
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .score-ring {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1.2rem;
+    }
+
+    .score-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .score-ring-inner {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, .06);
+    }
+
+    .score-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .score-pct {
+      font-size: .72rem;
+      color: var(--c-muted);
+      font-weight: 500;
+      margin-top: .15rem;
+    }
+
+    .result-msg {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+
+    .result-sub {
+      font-size: .86rem;
+      color: var(--c-muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .7rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .stat-box {
+      border-radius: var(--radius-sm);
+      padding: .85rem .6rem;
+      background: rgba(255, 255, 255, 0.55);
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .stat-lbl {
+      font-size: .7rem;
+      color: var(--c-muted);
+      font-weight: 500;
+      margin-top: .15rem;
+    }
+
+    .result-btns {
+      display: flex;
+      gap: .75rem;
+    }
+
+    .result-btns>* {
+      flex: 1;
+    }
+
+    .btn-again {
+      padding: .8rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #6352b4, #4a2fa3);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      box-shadow: 0 5px 18px rgba(99, 82, 180, .30);
+      transition: var(--transition);
+    }
+
+    .btn-again:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-other {
+      padding: .8rem;
+      border: 1.5px solid rgba(99, 82, 180, .28);
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.65);
+      color: var(--c-accent);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-other:hover {
+      background: rgba(99, 82, 180, .08);
+    }
+
+    .detail-section {
+      border-radius: var(--radius);
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .det-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+    }
+
+    .detail-item {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.1rem;
+      margin-bottom: .7rem;
+      border: 1.5px solid transparent;
+    }
+
+    .detail-item.ci {
+      background: rgba(22, 163, 74, .07);
+      border-color: rgba(22, 163, 74, .22);
+    }
+
+    .detail-item.wi {
+      background: rgba(220, 38, 38, .06);
+      border-color: rgba(220, 38, 38, .18);
+    }
+
+    .di-head {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin-bottom: .5rem;
+    }
+
+    .di-badge {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+    }
+
+    .di-badge.c {
+      background: rgba(22, 163, 74, .14);
+      color: var(--c-success);
+    }
+
+    .di-badge.w {
+      background: rgba(220, 38, 38, .12);
+      color: var(--c-danger);
+    }
+
+    .di-type {
+      font-size: .65rem;
+      color: var(--c-muted);
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .di-num {
+      font-size: .72rem;
+      color: var(--c-muted);
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    .di-q {
+      font-size: .9rem;
+      color: var(--c-text);
+      font-weight: 500;
+      margin-bottom: .4rem;
+    }
+
+    .di-ans {
+      font-size: .82rem;
+      color: var(--c-muted);
+    }
+
+    .di-ans strong {
+      color: var(--c-text);
+    }
+
+    /* ── Learn page ── */
+    .learn-card {
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      animation: scaleIn .3s ease;
+    }
+
+    .level-heading {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      border-bottom: 1px solid rgba(99, 82, 180, .12);
+      padding-bottom: .55rem;
+      margin: 1.4rem 0 .9rem;
+    }
+
+    .learn-eg {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.1rem;
+      margin-bottom: .65rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(99, 82, 180, .12);
+    }
+
+    .learn-eg-type {
+      font-size: .64rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      margin-bottom: .3rem;
+    }
+
+    .learn-eg-q {
+      font-size: .9rem;
+      color: var(--c-text);
+      font-weight: 500;
+      margin-bottom: .3rem;
+    }
+
+    .learn-eg-a {
+      font-size: .82rem;
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 580px) {
+      .inner-wrap {
+        padding: 1.5rem .9rem 4.5rem;
+      }
+
+      .topic-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .q-card {
+        padding: 1.3rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── CREDIT BAR ── -->
+  <div class="credit-bar">
+    <span>✦ Coded &amp; Designed by</span>
+    <span class="credit-name">DuGiaVăn</span>
+    <span>✦</span>
+  </div>
+
+  <!-- ══════════ LANDING ══════════ -->
+  <div id="page-landing" class="page active">
+    <div class="landing-badge">📚 Tiếng Anh Lớp 6 · Global Success HK2</div>
+    <h1 class="landing-title">Đề thi tiếng Anh<br />lớp 6 của thầy<br />Du Gia Văn</h1>
+    <p class="landing-subtitle">Ôn tập toàn bộ ngữ pháp Học Kỳ 2 — chọn chủ đề, luyện tập và xem giải thích chi tiết cho
+      từng câu.</p>
+    <div class="landing-features">
+      <span class="feature-chip">✅ 12 Chủ đề</span>
+      <span class="feature-chip">🎯 4 Dạng bài</span>
+      <span class="feature-chip">⭐ 3 Cấp độ</span>
+      <span class="feature-chip">📘 Giải thích chi tiết</span>
+    </div>
+    <button class="btn-start" onclick="showPage('topics')">Khám Phá →</button>
+  </div>
+
+  <!-- ══════════ TOPICS ══════════ -->
+  <div id="page-topics" class="page">
+    <div class="inner-wrap">
+      <div class="page-nav">
+        <button class="btn-back" onclick="showPage('landing')">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Trang chủ
+        </button>
+      </div>
+      <div class="section-title">Chọn <span>Chủ Đề</span></div>
+      <div class="section-sub">12 chủ đề ngữ pháp &amp; kỹ năng theo chương trình Global Success HK2</div>
+      <div class="topic-grid" id="topic-grid"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ TOPIC DETAIL ══════════ -->
+  <div id="page-topic-detail" class="page">
+    <div class="inner-wrap narrow">
+      <div class="page-nav">
+        <button class="btn-back" onclick="showPage('topics')">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Danh sách chủ đề
+        </button>
+      </div>
+      <div class="detail-card glass" id="detail-card"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ LEARN ══════════ -->
+  <div id="page-learn" class="page">
+    <div class="inner-wrap narrow">
+      <div class="page-nav">
+        <button class="btn-back" onclick="showPage('topic-detail')">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Quay lại
+        </button>
+      </div>
+      <div id="learn-content"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ SETUP ══════════ -->
+  <div id="page-setup" class="page">
+    <div class="inner-wrap narrow">
+      <div class="page-nav">
+        <button class="btn-back" onclick="showPage('topic-detail')">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Quay lại
+        </button>
+      </div>
+      <div class="glass" style="border-radius:var(--radius);padding:2rem 2rem 2.2rem;">
+        <div class="section-title" style="font-size:1.5rem;margin-bottom:.25rem;">Thiết lập <span>bài thi</span></div>
+        <div class="section-sub" style="margin-bottom:1.6rem;">Chọn độ khó và số câu hỏi</div>
+        <div class="setup-label">Độ khó</div>
+        <div class="choice-row">
+          <button class="choice-btn" id="btn-easy" onclick="selectDiff('easy')"><span>🟢</span>Dễ</button>
+          <button class="choice-btn" id="btn-medium" onclick="selectDiff('medium')"><span>🟡</span>Trung bình</button>
+          <button class="choice-btn" id="btn-hard" onclick="selectDiff('hard')"><span>🔴</span>Khó</button>
+        </div>
+        <div class="setup-label">Số câu hỏi</div>
+        <div class="choice-row">
+          <button class="choice-btn" id="btn-5" onclick="selectCount(5)">5</button>
+          <button class="choice-btn" id="btn-10" onclick="selectCount(10)">10</button>
+          <button class="choice-btn" id="btn-15" onclick="selectCount(15)">15</button>
+          <button class="choice-btn" id="btn-20" onclick="selectCount(20)">20</button>
+        </div>
+        <button class="btn-go" onclick="startExercise()">Bắt đầu! 🎯</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ EXERCISE ══════════ -->
+  <div id="page-exercise" class="page">
+    <div class="inner-wrap narrow">
+      <div class="ex-topbar glass">
+        <span class="ex-topic-lbl" id="ex-topic-lbl"></span>
+        <span class="ex-prog-lbl" id="ex-prog-lbl"></span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+      <div class="q-card glass" id="q-container"></div>
+      <div class="ex-btns">
+        <button class="btn-check" id="btn-submit" onclick="submitAnswer()">Kiểm tra ✅</button>
+        <button class="btn-nxt" id="btn-next" onclick="nextQuestion()">Tiếp theo →</button>
+      </div>
+      <div id="feedback-box"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ RESULT ══════════ -->
+  <div id="page-result" class="page">
+    <div class="inner-wrap narrow">
+      <div id="result-content"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════
+       DATABASE
+    ═══════════════════════════════════════════════ */
+    const DATABASE = {
+      tenses: {
+        title: "Các thì của động từ", icon: "⏰",
+        theory: `<strong>1. Quá khứ đơn:</strong> S + V2/ed | yesterday, ago, last night/week.<br><strong>2. Tương lai đơn:</strong> S + will + V | tomorrow, next week.<br><strong>3. Hiện tại đơn:</strong> S + V(s/es) | every day, always, usually.<br><strong>4. Hiện tại tiếp diễn:</strong> S + am/is/are + V-ing | now, at the moment, Look!, Listen!`,
+        levels: {
+          easy: [
+            // --- NHÓM 1: HIỆN TẠI ĐƠN (Present Simple) ---
+            { type: "multiple_choice", q: "She ___ to school every day.", options: ["go", "goes", "is going"], a: "goes", lesson: "'Every day' → Hiện tại đơn. Chủ ngữ số ít (She) → thêm 's': goes." },
+            { type: "multiple_choice", q: "My mother ___ breakfast at 6:30 every morning.", options: ["cook", "cooks", "is cooking"], a: "cooks", lesson: "'Every morning' → Hiện tại đơn. My mother (số ít) → thêm 's' vào động từ." },
+            { type: "multiple_choice", q: "The sun ___ in the East.", options: ["rise", "rises", "is rising"], a: "rises", lesson: "Sự thật hiển nhiên → Hiện tại đơn. The sun (số ít) → thêm 'es/s'." },
+
+            // --- NHÓM 2: HIỆN TẠI TIẾP DIỄN (Present Continuous) ---
+            { type: "fill_blank", q: "Listen! She (sing) ___ in the room.", a: "is singing", lesson: "'Listen!' → Hiện tại tiếp diễn: am/is/are + V-ing. She → is singing." },
+            { type: "fill_blank", q: "Look! The baby (sleep) ___.", a: "is sleeping", lesson: "'Look!' → Hiện tại tiếp diễn: am/is/are + V-ing. The baby → is sleeping." },
+            { type: "fill_blank", q: "Keep silent! The students (do) ___ their exam.", a: "are doing", lesson: "'Keep silent!' → Hiện tại tiếp diễn. Students (số nhiều) → dùng 'are' + V-ing." },
+            { type: "multiple_choice", q: "He ___ his homework at the moment.", options: ["is doing", "does", "did"], a: "is doing", lesson: "'At the moment' → Hiện tại tiếp diễn. He → is doing." },
+            { type: "multiple_choice", q: "Look! The bus ___.", options: ["come", "comes", "is coming"], a: "is coming", lesson: "'Look!' → Hành động đang xảy ra → Hiện tại tiếp diễn: is coming." },
+
+            // --- NHÓM 3: QUÁ KHỨ ĐƠN (Past Simple) ---
+            { type: "multiple_choice", q: "I ___ a movie last night.", options: ["see", "saw", "will see"], a: "saw", lesson: "'Last night' → Quá khứ đơn. V2 của 'see' là 'saw'." },
+            { type: "fill_blank", q: "We (visit) ___ Ha Long Bay last summer.", a: "visited", lesson: "'Last summer' → Quá khứ đơn. Động từ thường → thêm -ed: visited." },
+            { type: "fill_blank", q: "I (buy) ___ a new bike two days ago.", a: "bought", lesson: "'Two days ago' → Quá khứ đơn. V2 của 'buy' là 'bought'." },
+            { type: "fill_blank", q: "They (not/go) ___ to the park yesterday.", a: "did not go", lesson: "'Yesterday' → Quá khứ đơn (phủ định). Dùng trợ động từ: did not + V (nguyên mẫu)." },
+            { type: "fill_blank", q: "What ___ you (do) last weekend?", a: "did - do", lesson: "'Last weekend' → Câu hỏi Quá khứ đơn. Mượn trợ động từ 'did' đảo lên trước chủ ngữ." },
+
+            // --- NHÓM 4: TƯƠNG LAI ĐƠN (Future Simple) ---
+            { type: "multiple_choice", q: "They ___ football tomorrow.", options: ["played", "play", "will play"], a: "will play", lesson: "'Tomorrow' → Tương lai đơn: S + will + V (nguyên mẫu)." },
+            { type: "multiple_choice", q: "We ___ to the zoo next Sunday.", options: ["go", "went", "will go"], a: "will go", lesson: "'Next Sunday' → Tương lai đơn. Cấu trúc: will + V (nguyên mẫu)." },
+            { type: "fill_blank", q: "I think it (rain) ___ tonight.", a: "will rain", lesson: "'I think/tonight' → Dự đoán tương lai đơn: will + V." }
+          ],
+          medium: [
+            // --- NHÓM 1: HIỆN TẠI ĐƠN (Present Simple) ---
+            { type: "error_correction", q: "Lan usually play volleyball after school.", a: "plays", lesson: "Chủ ngữ số ít (Lan) + Hiện tại đơn → động từ phải thêm 's': play → plays.", error_word: "play" },
+            { type: "fill_blank", q: "Water (boil) ___ at 100 degrees Celsius.", a: "boils", lesson: "Sự thật hiển nhiên → Hiện tại đơn. 'Water' không đếm được nên tính là số ít → thêm 's'.", error_word: "" },
+            { type: "error_correction", q: "I am usually get up early on Sundays.", a: "get", lesson: "Hiện tại đơn với động từ thường không dùng 'am/is/are'. Chỉ dùng: I + usually + get up.", error_word: "am" },
+            { type: "error_correction", q: "My father often drink tea after dinner.", a: "drinks", lesson: "Chủ ngữ số ít (My father) → Hiện tại đơn phải thêm 's' vào động từ.", error_word: "drink" },
+
+            // --- NHÓM 2: HIỆN TẠI TIẾP DIỄN (Present Continuous) ---
+            { type: "error_correction", q: "They are play soccer in the yard now.", a: "playing", lesson: "Hiện tại tiếp diễn: am/is/are + V-ing. 'Now' → are playing.", error_word: "play" },
+            { type: "multiple_choice", q: "Listen! Someone ___ at the door.", options: ["knock", "knocks", "is knocking"], a: "is knocking", lesson: "'Listen!' → Hành động đang xảy ra ngay lúc nói → Hiện tại tiếp diễn.", error_word: "knocks" },
+            { type: "fill_blank", q: "What ___ you (do) ___ now?", a: "are - doing", lesson: "'Now' → Hiện tại tiếp diễn. Câu hỏi đảo 'are' lên trước chủ ngữ.", error_word: "" },
+
+            // --- NHÓM 3: QUÁ KHỨ ĐƠN (Past Simple) ---
+            { type: "error_correction", q: "He goed to the market yesterday.", a: "went", lesson: "Quá khứ đơn của 'go' là bất quy tắc: went. Không bao giờ có 'goed'.", error_word: "goed" },
+            { type: "multiple_choice", q: "Where ___ you yesterday afternoon?", options: ["are", "were", "will be"], a: "were", lesson: "'Yesterday' → Quá khứ đơn. Động từ To be đi với 'you' phải là 'were'.", error_word: "are" },
+            { type: "error_correction", q: "Did you saw the teacher this morning?", a: "see", lesson: "Trong câu hỏi Quá khứ đơn, khi đã có 'Did' thì động từ chính phải về nguyên mẫu: see.", error_word: "saw" },
+            { type: "fill_blank", q: "They (not/have) ___ English class last Monday.", a: "did not have", lesson: "Phủ định Quá khứ đơn: did not + V (nguyên mẫu).", error_word: "" },
+            { type: "multiple_choice", q: "We ___ a great time in Da Lat last summer.", options: ["have", "had", "will have"], a: "had", lesson: "'Last summer' → Quá khứ đơn. V2 của 'have' là 'had'.", error_word: "have" },
+
+            // --- NHÓM 4: TƯƠNG LAI ĐƠN (Future Simple) ---
+            { type: "error_correction", q: "She will goes to Ha Noi next month.", a: "go", lesson: "Sau 'will' là động từ nguyên mẫu, không thêm 's/es': will go.", error_word: "goes" },
+            { type: "multiple_choice", q: "I think we ___ to the moon in the future.", options: ["go", "went", "will go"], a: "will go", lesson: "'In the future' (trong tương lai) → dùng Tương lai đơn: will + V.", error_word: "go" }
+          ],
+          hard: [
+            // --- NHÓM 1: CÂU ĐIỀU KIỆN LOẠI 1 (Conditional Sentence Type 1) ---
+            { type: "reorder", q: ["If", "it", "rains", ",", "we", "will", "stay", "at", "home", "."], a: "If it rains, we will stay at home.", lesson: "Câu điều kiện loại 1: Diễn tả điều có thể xảy ra. Cấu trúc: If + Hiện tại đơn, S + will + V (nguyên mẫu)." },
+            { type: "fill_blank", q: "If she (study) ___ hard, she will pass the exam.", a: "studies", lesson: "Trong mệnh đề 'If', ta dùng thì Hiện tại đơn. She (số ít) → studies." },
+            { type: "multiple_choice", q: "We will go camping if the weather ___ fine.", options: ["is", "was", "will be"], a: "is", lesson: "Câu điều kiện loại 1: Mệnh đề 'If' dùng Hiện tại đơn. Weather (số ít) → to be là 'is'." },
+
+            // --- NHÓM 2: QUÁ KHỨ TIẾP DIỄN & SỰ PHỐI HỢP THÌ ---
+            { type: "reorder", q: ["was", "at", "She", "studying", "8", "pm", "last", "night", "."], a: "She was studying at 8 pm last night.", lesson: "Quá khứ tiếp diễn: Diễn tả hành động đang xảy ra tại một mốc thời gian cụ thể trong quá khứ." },
+            { type: "fill_blank", q: "While they (play) ___ chess, it started to rain.", a: "were playing", lesson: "Hành động đang diễn ra (Quá khứ tiếp diễn) thì có hành động khác xen vào (Quá khứ đơn)." },
+            { type: "multiple_choice", q: "What ___ you doing at this time yesterday?", options: ["are", "were", "did"], a: "were", lesson: "Câu hỏi thì Quá khứ tiếp diễn: What + was/were + S + V-ing?" },
+
+            // --- NHÓM 3: CÂU HỎI VÀ TRẠNG TỪ PHỨC TẠP ---
+            { type: "reorder", q: ["does", "often", "What", "do", "she", "?"], a: "What does she often do?", lesson: "Câu hỏi Hiện tại đơn số ít: What + does + S + often + V (nguyên mẫu)?" },
+            { type: "error_correction", q: "How many brothers and sisters does you have?", a: "do", lesson: "Chủ ngữ 'you' phải đi với trợ động từ 'do' trong câu hỏi Hiện tại đơn.", error_word: "does" },
+            { type: "reorder", q: ["will", "you", "Where", "be", "tomorrow", "?"], a: "Where will you be tomorrow?", lesson: "Câu hỏi Tương lai đơn: Wh-word + will + S + V (nguyên mẫu)?" },
+            { type: "fill_blank", q: "My father (not/work) ___ in the garden now.", a: "is not working", lesson: "Phủ định Hiện tại tiếp diễn: am/is/are + not + V-ing. My father → is not working." },
+
+            // --- NHÓM 4: PHÂN BIỆT THÌ (Mixed Tenses) ---
+            { type: "multiple_choice", q: "Last year, I ___ to Ha Noi, but next year I ___ Ho Chi Minh City.", options: ["go - visit", "went - will visit", "went - visited"], a: "went - will visit", lesson: "Kết hợp Quá khứ đơn (Last year) và Tương lai đơn (Next year)." },
+            { type: "error_correction", q: "Listen! The birds are sing on the tree.", a: "singing", lesson: "Sau 'are' trong thì Hiện tại tiếp diễn, động từ phải thêm đuôi -ing: singing.", error_word: "sing" }
+          ],
+        }
+      },
+      conditionals: {
+        title: "Câu điều kiện loại 1", icon: "🔀",
+        theory: `<strong>Câu điều kiện loại 1:</strong> Diễn tả điều kiện có thể xảy ra trong hiện tại hoặc tương lai.<br><strong>Cấu trúc:</strong> If + S + V (Hiện tại đơn), S + will/won't + V-inf.<br><strong>Ví dụ:</strong> If it rains, I will stay at home.<br><strong>Phủ định:</strong> If + S + don't/doesn't + V, S + won't + V.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "If it rains, I ___ stay at home.", options: ["will", "would", "stayed"], a: "will", lesson: "Câu điều kiện loại 1: If + Hiện tại đơn, S + WILL + V-inf." },
+            { type: "multiple_choice", q: "If she ___ hard, she will pass the exam.", options: ["study", "studied", "will study"], a: "study", lesson: "Mệnh đề If dùng Hiện tại đơn (không dùng will)." },
+            { type: "fill_blank", q: "If you eat too much, you (be) ___ sick.", a: "will be", lesson: "Câu điều kiện loại 1: mệnh đề chính dùng will + V-inf." },
+            { type: "multiple_choice", q: "If they don't hurry, they ___ miss the bus.", options: ["will", "would", "are"], a: "will", lesson: "Câu điều kiện loại 1 phủ định: If + don't/doesn't, S + WILL + V." },
+            { type: "fill_blank", q: "If I have time, I (visit) ___ you.", a: "will visit", lesson: "If + Hiện tại đơn → mệnh đề chính dùng will + V-inf: will visit." },
+          ],
+          medium: [
+            { type: "error_correction", q: "If it will rain, we will cancel the picnic.", a: "rains", lesson: "Mệnh đề If KHÔNG dùng 'will'. Phải dùng Hiện tại đơn: rains.", error_word: "will rain" },
+            { type: "fill_blank", q: "If he (not/study) ___, he will fail the test.", a: "doesn't study", lesson: "Phủ định Hiện tại đơn: If + S + don't/doesn't + V-inf." },
+            { type: "reorder", q: ["will", "If", "late", "be", "you", "you", "get", "up", "early", "not", "."], a: "If you get up late you will not be early .", lesson: "Câu điều kiện loại 1: If + mệnh đề điều kiện (HT đơn), mệnh đề chính (will)." },
+            { type: "error_correction", q: "If she studies hard, she would pass the exam.", a: "will pass", lesson: "Câu điều kiện loại 1 dùng WILL (không phải would). Would dùng cho loại 2.", error_word: "would pass" },
+          ],
+          hard: [
+            { type: "reorder", q: ["you", "unless", "be", "will", "You", "on", "time", "hurry", "."], a: "You will be on time unless you hurry .", lesson: "Unless = If ... not. Unless you hurry = If you don't hurry." },
+            { type: "fill_blank", q: "If you ___ (not/tell) me the truth, I won't help you.", a: "don't tell", lesson: "Phủ định mệnh đề If: If + S + don't/doesn't + V-inf." },
+            { type: "error_correction", q: "What will happen if we doesn't recycle?", a: "don't", lesson: "Mệnh đề If dùng Hiện tại đơn. Chủ ngữ 'we' → don't (không dùng doesn't).", error_word: "doesn't" },
+          ]
+        }
+      },
+      superlatives: {
+        title: "So sánh nhất", icon: "🏆",
+        theory: `<strong>Tính từ ngắn (1-2 âm tiết):</strong> the + adj + est. VD: tall → the tallest, big → the biggest.<br><strong>Tính từ dài (3+ âm tiết):</strong> the most + adj. VD: beautiful → the most beautiful.<br><strong>Bất quy tắc:</strong> good → the best | bad → the worst | far → the farthest.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "Mount Everest is ___ mountain in the world.", options: ["the highest", "higher", "the most high"], a: "the highest", lesson: "So sánh nhất tính từ ngắn (high): the + adj + est = the highest." },
+            { type: "fill_blank", q: "This is (good) ___ movie I have ever seen.", a: "the best", lesson: "So sánh nhất bất quy tắc: good → the best." },
+            { type: "multiple_choice", q: "She is ___ student in the class.", options: ["the most smart", "the smartest", "smarter"], a: "the smartest", lesson: "Smart là tính từ 1 âm tiết → the + smart + est = the smartest." },
+            { type: "fill_blank", q: "July is (hot) ___ month of the year in Viet Nam.", a: "the hottest", lesson: "Hot → nhân đôi phụ âm cuối + est = the hottest." },
+            { type: "multiple_choice", q: "This is ___ book in the library.", options: ["the most interesting", "the interestingest", "more interesting"], a: "the most interesting", lesson: "Interesting (4 âm tiết) → the most + interesting." },
+          ],
+          medium: [
+            { type: "error_correction", q: "He is the most tall boy in class.", a: "tallest", lesson: "Tall là tính từ ngắn (1 âm tiết) → dùng the + tallest, KHÔNG dùng the most tall.", error_word: "most tall" },
+            { type: "fill_blank", q: "This exercise is (difficult) ___ in the textbook.", a: "the most difficult", lesson: "Difficult (3 âm tiết) → so sánh nhất: the most difficult." },
+            { type: "reorder", q: ["in", "Who", "tallest", "the", "class", "is", "?"], a: "Who is the tallest in the class ?", lesson: "Câu hỏi so sánh nhất: Who + is + the + adj-est + in + nhóm?" },
+            { type: "error_correction", q: "This is the worse day of my life.", a: "worst", lesson: "So sánh nhất bất quy tắc: bad → the worst (không phải the worse).", error_word: "worse" },
+          ],
+          hard: [
+            { type: "reorder", q: ["the", "planet", "largest", "What", "Solar", "in", "is", "System", "the", "?"], a: "What is the largest planet in the Solar System ?", lesson: "Câu hỏi so sánh nhất: What + is + the + adj-est + in + địa điểm?" },
+            { type: "fill_blank", q: "Lan is (good) ___ singer of all. Nobody sings better than her.", a: "the best", lesson: "So sánh nhất bất quy tắc: good → the best. Dùng khi so sánh hơn tất cả." },
+            { type: "error_correction", q: "This is the more expensive hotel in the city.", a: "the most expensive", lesson: "Expensive (3 âm tiết) → so sánh nhất dùng 'the most expensive'.", error_word: "the more expensive" },
+          ]
+        }
+      },
+      modals: {
+        title: "Động từ khuyết thiếu", icon: "💬",
+        theory: `<strong>Can:</strong> Khả năng hiện tại. | <strong>Could:</strong> Khả năng quá khứ/lịch sự.<br><strong>Should:</strong> Lời khuyên. | <strong>Must:</strong> Bắt buộc. | <strong>Might:</strong> Khả năng không chắc chắn.<br><strong>Cấu trúc:</strong> S + modal + V-nguyên thể (không chia)`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "You ___ eat vegetables every day. It's good for health.", options: ["should", "must", "might"], a: "should", lesson: "'Should' diễn đạt lời khuyên. Nên ăn rau mỗi ngày." },
+            { type: "multiple_choice", q: "Students ___ wear uniforms at school. It's a rule.", options: ["should", "might", "must"], a: "must", lesson: "'Must' diễn đạt sự bắt buộc (obligation/rule). Đây là quy định." },
+            { type: "fill_blank", q: "She ___ (can/past) swim when she was 5.", a: "could", lesson: "Khả năng trong quá khứ → Could. Could là quá khứ của Can." },
+            { type: "multiple_choice", q: "Take an umbrella. It ___ rain this afternoon.", options: ["must", "might", "should"], a: "might", lesson: "'Might' diễn đạt khả năng không chắc chắn." },
+            { type: "fill_blank", q: "You ___ not smoke in public places. It's forbidden.", a: "must", lesson: "Must not (mustn't) = cấm đoán, không được phép." },
+          ],
+          medium: [
+            { type: "error_correction", q: "He can swims very well.", a: "swim", lesson: "Sau động từ khuyết thiếu (can, should, must...) luôn dùng V-nguyên thể: swim.", error_word: "swims" },
+            { type: "fill_blank", q: "You look tired. You ___ go to bed early tonight.", a: "should", lesson: "Should dùng để khuyên ai đó làm điều gì." },
+            { type: "reorder", q: ["cross", "not", "the", "road", "must", "You", "red", "at", "light", "a", "."], a: "You must not cross the road at a red light .", lesson: "Must not (mustn't): cấm đoán mạnh, không được phép làm." },
+            { type: "error_correction", q: "She might goes to the party tonight.", a: "go", lesson: "Sau might (modal verb) dùng V-nguyên thể: go (không phải goes).", error_word: "goes" },
+          ],
+          hard: [
+            { type: "reorder", q: ["to", "She", "able", "was", "read", "at", "be", "3", "years", "old", "."], a: "She was able to read at 3 years old .", lesson: "Be able to = có khả năng. Quá khứ: was/were able to." },
+            { type: "fill_blank", q: "You ___ not tell anyone about this. It's a secret.", a: "must", lesson: "Must not = tuyệt đối không được. Đây là quy tắc bắt buộc mạnh." },
+            { type: "error_correction", q: "I should to study harder for the test.", a: "study", lesson: "Sau should KHÔNG dùng 'to'. Cấu trúc: should + V-nguyên thể.", error_word: "to study" },
+          ]
+        }
+      },
+      imperatives: {
+        title: "Câu mệnh lệnh", icon: "📢",
+        theory: `<strong>Khẳng định:</strong> V (nguyên thể) + ... VD: Open the window. Sit down.<br><strong>Phủ định:</strong> Don't + V + ... VD: Don't run in the corridor.<br><strong>Lịch sự:</strong> Please + V ... / V ... , please.<br><strong>Lưu ý:</strong> Câu mệnh lệnh không có chủ ngữ (You được ẩn đi).`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "___ your homework before watching TV!", options: ["Do", "Does", "Did"], a: "Do", lesson: "Câu mệnh lệnh khẳng định: V-nguyên thể (không cần chủ ngữ). 'Do your homework!'" },
+            { type: "multiple_choice", q: "___ run in the classroom!", options: ["Not", "Don't", "Doesn't"], a: "Don't", lesson: "Câu mệnh lệnh phủ định: Don't + V-nguyên thể. 'Don't run!'" },
+            { type: "fill_blank", q: "___ quiet, please! The baby is sleeping.", a: "Be", lesson: "Câu mệnh lệnh với tính từ dùng 'Be': Be + adj. 'Be quiet = Im lặng.'" },
+            { type: "multiple_choice", q: "___ the door, please. It's cold outside.", options: ["Close", "Closes", "Closed"], a: "Close", lesson: "Câu mệnh lệnh lịch sự: V-nguyên thể + ..., please." },
+            { type: "fill_blank", q: "___ (not/touch) the exhibits in the museum.", a: "Don't touch", lesson: "Câu mệnh lệnh phủ định: Don't + V-nguyên thể: Don't touch." },
+          ],
+          medium: [
+            { type: "error_correction", q: "Please don't to talk in the library.", a: "talk", lesson: "Sau 'don't' trong câu mệnh lệnh dùng V-nguyên thể, KHÔNG có 'to': don't talk.", error_word: "to talk" },
+            { type: "reorder", q: ["the", "turn", "please", "on", "fan", ",", "."], a: "Turn on the fan , please .", lesson: "Câu mệnh lệnh lịch sự: V + ... , please." },
+            { type: "fill_blank", q: "___ late for school again! (warning)", a: "Don't be", lesson: "Mệnh lệnh phủ định với tính từ: Don't be + adj. 'Don't be late = Đừng đi trễ.'" },
+            { type: "error_correction", q: "Always does your best in every test.", a: "do", lesson: "Câu mệnh lệnh: V-nguyên thể (không chia). 'Always do your best'.", error_word: "does" },
+          ],
+          hard: [
+            { type: "reorder", q: ["away", "Keep", "from", "danger", "areas", "."], a: "Keep away from danger areas .", lesson: "Câu mệnh lệnh cụm động từ: Keep away from = Tránh xa." },
+            { type: "fill_blank", q: "___ (never/give up) on your dreams!", a: "Never give up", lesson: "Never + V-nguyên thể: mệnh lệnh phủ định mạnh. Never give up = Đừng bao giờ từ bỏ." },
+            { type: "error_correction", q: "Not eat junk food every day.", a: "Don't eat", lesson: "Câu mệnh lệnh phủ định phải dùng 'Don't + V'. Không dùng 'Not + V' mà không có Don't.", error_word: "Not eat" },
+          ]
+        }
+      },
+      conjunctions: {
+        title: "Liên từ", icon: "🔗",
+        theory: `<strong>And:</strong> Và | <strong>But:</strong> Nhưng (đối lập) | <strong>Or:</strong> Hoặc (lựa chọn)<br><strong>So:</strong> Vì vậy (kết quả) | <strong>Because:</strong> Bởi vì (nguyên nhân)<br><strong>Although/Though:</strong> Mặc dù (nhượng bộ). Lưu ý: Although...NOT dùng cùng But.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "She is kind ___ beautiful.", options: ["and", "but", "so"], a: "and", lesson: "'And' nối hai ý bổ sung: kind AND beautiful." },
+            { type: "multiple_choice", q: "I wanted to go out, ___ it was raining.", options: ["and", "but", "because"], a: "but", lesson: "'But' diễn đạt sự tương phản: muốn ra ngoài NHƯNG trời mưa." },
+            { type: "fill_blank", q: "He didn't go to school ___ he was sick.", a: "because", lesson: "'Because' chỉ nguyên nhân: không đi học BỞI VÌ bị bệnh." },
+            { type: "multiple_choice", q: "It was hot, ___ we turned on the fan.", options: ["so", "but", "because"], a: "so", lesson: "'So' chỉ kết quả: nóng, VÌ VẬY bật quạt." },
+            { type: "fill_blank", q: "Do you want rice ___ noodles for lunch?", a: "or", lesson: "'Or' diễn đạt sự lựa chọn: cơm HOẶC mì." },
+          ],
+          medium: [
+            { type: "error_correction", q: "Although she was tired, but she kept working.", a: "she kept working", lesson: "Sau Although/Though không dùng 'but'. Chọn một: Although..., S+V HOẶC S+V, but...", error_word: "but" },
+            { type: "reorder", q: ["was", "I", "the", "because", "late", "missed", "I", "bus", "."], a: "I was late because I missed the bus .", lesson: "Because + nguyên nhân đặt sau mệnh đề kết quả." },
+            { type: "fill_blank", q: "\\___ it was expensive, she bought the dress.", a: "Although", lesson: "Although/Though diễn đạt nhượng bộ: Mặc dù đắt, cô ấy vẫn mua." },
+            { type: "error_correction", q: "I studied hard so I failed the test.", a: "but", lesson: "Học chăm NHƯNG vẫn trượt → đối lập, dùng 'but', không phải 'so'.", error_word: "so" },
+          ],
+          hard: [
+            { type: "reorder", q: ["so", "She", "that", "studied", "she", "hard", "the", "passed", "exam", "."], a: "She studied so hard that she passed the exam .", lesson: "So + adj/adv + that: diễn đạt mức độ dẫn đến kết quả." },
+            { type: "fill_blank", q: "___ I was full, I couldn't stop eating the cake.", a: "Although", lesson: "Although + mệnh đề nhượng bộ + , + mệnh đề chính." },
+            { type: "error_correction", q: "He is both intelligent or creative.", a: "and", lesson: "Cấu trúc: Both A AND B (cả A lẫn B). Không dùng 'both...or'.", error_word: "or" },
+          ]
+        }
+      },
+      possessives: {
+        title: "Đại từ & Tính từ sở hữu", icon: "👤",
+        theory: `<strong>Tính từ sở hữu:</strong> Đứng TRƯỚC danh từ: my, your, his, her, its, our, their.<br><strong>Đại từ sở hữu:</strong> Đứng một mình (thay cho danh từ): mine, yours, his, hers, ours, theirs.<br><strong>Sở hữu cách:</strong> N's + N. VD: Tom's bag = cái túi của Tom.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "This is ___ book. (of me)", options: ["my", "mine", "I"], a: "my", lesson: "Đứng trước danh từ 'book' → Tính từ sở hữu: MY book." },
+            { type: "multiple_choice", q: "The book is ___. (of me)", options: ["my", "mine", "me"], a: "mine", lesson: "Đứng một mình (không có danh từ sau) → Đại từ sở hữu: MINE." },
+            { type: "fill_blank", q: "That is Tom's pen. It is ___.", a: "his", lesson: "Tom = he → đại từ sở hữu thay cho Tom's = HIS." },
+            { type: "multiple_choice", q: "___ name is Mary.", options: ["Her", "Hers", "She"], a: "Her", lesson: "Đứng trước danh từ 'name' → Tính từ sở hữu: HER name." },
+            { type: "fill_blank", q: "These are our books. They are ___.", a: "ours", lesson: "Our (tính từ sở hữu) → Đại từ sở hữu thay thế: OURS." },
+          ],
+          medium: [
+            { type: "error_correction", q: "Is this yours bag?", a: "your", lesson: "Đứng trước danh từ 'bag' → Tính từ sở hữu 'your', không phải đại từ sở hữu 'yours'.", error_word: "yours" },
+            { type: "reorder", q: ["is", "black", "Its", "tail", "cat", "."], a: "Its black tail is cat .", lesson: "Its (không có dấu ') = tính từ sở hữu của 'it'. It's = It is (viết tắt)." },
+            { type: "fill_blank", q: "The red bicycle is ___. (of them)", a: "theirs", lesson: "Their (tính từ sở hữu) → Đại từ sở hữu: THEIRS." },
+            { type: "error_correction", q: "This is her's pen.", a: "her", lesson: "Tính từ sở hữu đứng trước danh từ KHÔNG có dấu ': her pen. 'Her's' không tồn tại.", error_word: "her's" },
+          ],
+          hard: [
+            { type: "reorder", q: ["friend", "is", "Tom's", "best", "Lan", "."], a: "Lan is Tom's best friend .", lesson: "Sở hữu cách: Tên + 's + danh từ. Tom's best friend = người bạn thân nhất của Tom." },
+            { type: "fill_blank", q: "A: Whose pen is this? B: It's ___. (of you)", a: "yours", lesson: "Đại từ sở hữu thay cho 'your pen': YOURS." },
+            { type: "error_correction", q: "The childrens' toys are everywhere.", a: "children's", lesson: "Children là danh từ bất quy tắc số nhiều. Sở hữu cách: children's.", error_word: "childrens'" },
+          ]
+        }
+      },
+      articles: {
+        title: "Mạo từ", icon: "🔤",
+        theory: `<strong>A:</strong> Trước danh từ số ít, bắt đầu bằng phụ âm. VD: a book, a cat.<br><strong>An:</strong> Trước danh từ số ít, bắt đầu bằng nguyên âm (a,e,i,o,u). VD: an apple, an hour.<br><strong>The:</strong> Khi đã xác định, duy nhất. VD: the sun, the book I gave you.<br><strong>Không mạo từ:</strong> Danh từ trừu tượng, tên riêng, số nhiều chung. VD: I like music.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "I have ___ cat and ___ dog.", options: ["a / a", "an / a", "the / the"], a: "a / a", lesson: "Cat và dog bắt đầu bằng phụ âm → dùng 'a': a cat, a dog." },
+            { type: "multiple_choice", q: "She is ___ honest person.", options: ["a", "an", "the"], a: "an", lesson: "'Honest' phát âm bắt đầu bằng nguyên âm /ɒ/ (h câm) → dùng 'an'." },
+            { type: "fill_blank", q: "___ sun rises in the east.", a: "The", lesson: "'Sun' là vật thể duy nhất → dùng 'The': the sun." },
+            { type: "multiple_choice", q: "I saw ___ elephant at the zoo.", options: ["a", "an", "the"], a: "an", lesson: "'Elephant' bắt đầu bằng nguyên âm 'e' → dùng 'an': an elephant." },
+            { type: "fill_blank", q: "She wants to be ___ engineer.", a: "an", lesson: "'Engineer' bắt đầu bằng nguyên âm 'e' → dùng 'an'." },
+          ],
+          medium: [
+            { type: "error_correction", q: "Can I borrow a pen on your desk?", a: "the", lesson: "'Pen on your desk' là chiếc bút đã xác định → dùng 'the'.", error_word: "a" },
+            { type: "fill_blank", q: "I love ___ music. (in general)", a: "(no article)", lesson: "Danh từ trừu tượng nói chung (music nói chung) → KHÔNG dùng mạo từ." },
+            { type: "reorder", q: ["an", "bought", "She", "umbrella", "."], a: "She bought an umbrella .", lesson: "Umbrella bắt đầu bằng nguyên âm 'u' → dùng 'an'." },
+            { type: "error_correction", q: "He is best student in the class.", a: "the best", lesson: "Superlative (so sánh nhất) luôn đi với 'the': the best student.", error_word: "best" },
+          ],
+          hard: [
+            { type: "reorder", q: ["the", "is", "Mekong", "River", "longest", "in", "the", "Viet", "Nam", "."], a: "The Mekong River is the longest in Viet Nam .", lesson: "Tên sông thường có 'the'. So sánh nhất đi với 'the'." },
+            { type: "fill_blank", q: "___ Everest is ___ highest mountain in the world.", a: "Mount / the", lesson: "Mount Everest: tên riêng không dùng mạo từ. Highest (superlative) → the highest." },
+            { type: "error_correction", q: "An useful advice she gave me.", a: "A", lesson: "'Useful' phát âm bắt đầu bằng /j/ (y-sound), là phụ âm → dùng 'A'.", error_word: "An" },
+          ]
+        }
+      },
+      phonetics: {
+        title: "Ngữ âm & Trọng âm", icon: "🔊",
+        theory: `<strong>/θ/ (th vô thanh):</strong> Đầu lưỡi chạm răng, thổi hơi. VD: think, three, theatre, tooth, month.<br><strong>/ð/ (th hữu thanh):</strong> Đầu lưỡi chạm răng, có rung. VD: the, this, that, there, brother, weather.<br><strong>Trọng âm 2 âm tiết:</strong> Danh từ/tính từ → âm 1. Động từ → âm 2. VD: 'HAPpy | pre'SENT (v).`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "Which word has the sound /θ/?", options: ["this", "that", "think"], a: "think", lesson: "/θ/ (th vô thanh): think, three, theatre, tooth, month. 'This', 'that' phát âm /ð/." },
+            { type: "multiple_choice", q: "Which word has the sound /ð/?", options: ["three", "tooth", "there"], a: "there", lesson: "/ð/ (th hữu thanh): the, this, that, there, brother, weather. 'Three', 'tooth' phát âm /θ/." },
+            { type: "multiple_choice", q: "Where is the stress in 'HAPPY'?", options: ["1st syllable", "2nd syllable", "3rd syllable"], a: "1st syllable", lesson: "Happy là tính từ 2 âm tiết → nhấn âm tiết 1: HAP-py." },
+            { type: "multiple_choice", q: "Which word has /θ/ sound?", options: ["weather", "brother", "theatre"], a: "theatre", lesson: "Theatre /θɪətər/ có âm /θ/. Weather /ð/ và brother /ð/ đều có âm /ð/." },
+            { type: "multiple_choice", q: "Stress in 'beGIN' (verb)?", options: ["1st syllable", "2nd syllable"], a: "2nd syllable", lesson: "Begin là động từ 2 âm tiết → nhấn âm tiết 2: be-GIN." },
+          ],
+          medium: [
+            { type: "multiple_choice", q: "'Present' as a NOUN is stressed on?", options: ["PRE-sent", "pre-SENT"], a: "PRE-sent", lesson: "Present (danh từ) → nhấn âm 1: PRE-sent. Present (động từ) → pre-SENT." },
+            { type: "multiple_choice", q: "Which pair both have /θ/ sound?", options: ["this / that", "think / three", "the / there"], a: "think / three", lesson: "Think và three đều có âm /θ/. This, that, the, there đều có âm /ð/." },
+            { type: "fill_blank", q: "The word 'RECORD' as a verb is stressed on syllable ___.", a: "2nd", lesson: "Record (verb) → re-CORD (nhấn âm 2). Record (noun) → RE-cord (nhấn âm 1)." },
+            { type: "multiple_choice", q: "Find the odd one out (different /th/ sound): thin, three, then, think", options: ["thin", "then", "think"], a: "then", lesson: "'Then' phát âm /ð/ (hữu thanh). thin, three, think đều phát âm /θ/ (vô thanh)." },
+          ],
+          hard: [
+            { type: "multiple_choice", q: "'photograph' - stress on which syllable?", options: ["PHO-to-graph", "pho-TO-graph", "pho-to-GRAPH"], a: "PHO-to-graph", lesson: "Photograph là danh từ 3 âm tiết → nhấn âm tiết 1: PHO-to-graph." },
+            { type: "multiple_choice", q: "Which word has a DIFFERENT vowel sound: seat, beat, heat, head?", options: ["seat", "beat", "head"], a: "head", lesson: "Seat /iː/, beat /iː/, heat /iː/ đều có âm dài /iː/. Head /e/ có âm ngắn khác." },
+            { type: "fill_blank", q: "The underlined sound in 'mo(th)er' is ___.", a: "/ð/", lesson: "'Mother' phát âm 'th' là /ð/ (hữu thanh). Giống: this, that, there, brother." },
+          ]
+        }
+      },
+      listening: {
+        title: "Kỹ năng Nghe", icon: "🎧",
+        theory: `<strong>1. Đọc câu hỏi trước:</strong> Xác định thông tin cần tìm.<br><strong>2. Nghe lần 1:</strong> Nắm ý chính, bối cảnh.<br><strong>3. Nghe lần 2:</strong> Tìm thông tin chi tiết.<br><strong>4. Chú ý từ khóa:</strong> Tên người, địa điểm, số, thời gian.<br><strong>Dạng bài:</strong> True/False, Multiple choice, Fill in blank, Matching.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "Conversation: 'I really enjoy swimming and reading.' What are her hobbies?", options: ["cooking and reading", "swimming and reading", "swimming and writing"], a: "swimming and reading", lesson: "Chiến lược nghe: nghe các danh từ/động từ chính. 'Swimming and reading' là hai sở thích được đề cập." },
+            { type: "multiple_choice", q: "You hear: 'The museum opens at 9 am and closes at 5 pm.' When does it close?", options: ["5 pm", "9 pm", "9 am"], a: "5 pm", lesson: "Nghe chi tiết số: 'closes at 5 pm' → đóng cửa lúc 5 giờ chiều." },
+            { type: "multiple_choice", q: "Forecast: 'Sunny tomorrow but cloudy on Sunday.' Weather on Sunday?", options: ["sunny", "rainy", "cloudy"], a: "cloudy", lesson: "Nghe từ chỉ thời gian để phân biệt thời tiết từng ngày: tomorrow vs Sunday." },
+            { type: "fill_blank", q: "'Where are you from?' 'I'm from ___.' (You hear: Hue)", a: "Hue", lesson: "Nghe tên riêng tập trung vào chữ hoa. 'Where are you from?' → địa điểm." },
+          ],
+          medium: [
+            { type: "multiple_choice", q: "'You should exercise at least 3 times a week.' What is recommended?", options: ["exercise every day", "exercise 3 times a week", "exercise once a week"], a: "exercise 3 times a week", lesson: "Nghe cấu trúc 'should + V' để xác định lời khuyên." },
+            { type: "multiple_choice", q: "'Go straight, then turn left at the bank.' Direction?", options: ["turn right at bank", "go straight and turn left", "turn right then straight"], a: "go straight and turn left", lesson: "Nghe chỉ đường: straight = thẳng, turn left = rẽ trái, at = tại." },
+            { type: "fill_blank", q: "'I'd like to book a table for ___ people at 7 pm.' (You hear: four)", a: "four", lesson: "Nghe số lượng: 'For four people' = đặt bàn cho 4 người." },
+            { type: "multiple_choice", q: "'The meeting is at 3pm, NOT 2pm.' When is the meeting?", options: ["2 pm", "3 pm", "4 pm"], a: "3 pm", lesson: "Nghe thông tin đính chính: NOT 2pm → cuộc họp lúc 3 pm." },
+          ],
+          hard: [
+            { type: "multiple_choice", q: "'The school trip has been postponed to next Friday.' What happened?", options: ["trip cancelled", "trip moved to next Friday", "trip on this Friday"], a: "trip moved to next Friday", lesson: "'Postponed' = hoãn lại. 'Due to bad weather' = do thời tiết xấu." },
+            { type: "multiple_choice", q: "'I've worked here for 3 years. Before that, I was in Hanoi.' How long at current job?", options: ["1 year", "3 years", "in Hanoi"], a: "3 years", lesson: "'Have worked for 3 years' → Hiện tại hoàn thành chỉ khoảng thời gian: 3 năm." },
+            { type: "fill_blank", q: "'She said she ___ (will) be there at 8.' (Reported speech change)", a: "would", lesson: "Câu tường thuật (Reported Speech): will → would khi tường thuật lại." },
+          ]
+        }
+      },
+      reading: {
+        title: "Kỹ năng Đọc hiểu", icon: "📖",
+        theory: `<strong>1. Skimming:</strong> Đọc lướt nắm ý chính. | <strong>2. Scanning:</strong> Đọc quét tìm thông tin cụ thể.<br><strong>3. Đọc câu hỏi trước:</strong> Đọc có mục tiêu. | <strong>4. Vocabulary in context:</strong> Đoán nghĩa từ.<br><strong>5. True/False/Not Given:</strong> Not Given = bài không đề cập, không phải Sai.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "Passage: 'Ha Long Bay has about 1,600 islands.' → It has approximately ___ islands.", options: ["1,600", "16,000", "160"], a: "1,600", lesson: "Scanning số liệu: đọc để tìm con số cụ thể. '1,600 islands'." },
+            { type: "multiple_choice", q: "'The Great Wall was built to protect China from invaders.' → WHY was it built?", options: ["for tourism", "to protect from invaders", "as a road"], a: "to protect from invaders", lesson: "Câu hỏi tìm nguyên nhân: 'to protect from invaders'." },
+            { type: "multiple_choice", q: "'Lan goes to school by bike every day.' → How does she go to school?", options: ["by bus", "by bike", "on foot"], a: "by bike", lesson: "Scanning chi tiết phương tiện: 'goes by bike' = đi bằng xe đạp." },
+            { type: "fill_blank", q: "'The festival takes place every year in February.' → When? → In ___.", a: "February", lesson: "Scanning thông tin thời gian: 'in February' = vào tháng Hai." },
+          ],
+          medium: [
+            { type: "multiple_choice", q: "'Despite being expensive, the restaurant is full.' → 'Despite' means:", options: ["because of", "in spite of", "so that"], a: "in spite of", lesson: "Despite = In spite of = Mặc dù." },
+            { type: "multiple_choice", q: "Passage only says 'Viet Nam exports rice.' Is 'Viet Nam is top rice exporter' TRUE/FALSE/NOT GIVEN?", options: ["True", "False", "Not Given"], a: "Not Given", lesson: "NOT GIVEN: bài chỉ nói 'xuất khẩu gạo', không nói 'hàng đầu thế giới'." },
+            { type: "fill_blank", q: "'The enormous whale was as big as a bus.' Enormous means ___.", a: "very large", lesson: "Đoán nghĩa từ theo ngữ cảnh: 'as big as a bus' → enormous = rất lớn." },
+            { type: "multiple_choice", q: "'He not only sings but also plays guitar.' → What can he do?", options: ["only sing", "only play guitar", "sing and play guitar"], a: "sing and play guitar", lesson: "'Not only A but also B' = không chỉ A mà còn B." },
+          ],
+          hard: [
+            { type: "multiple_choice", q: "'The author implies technology changed education.' What does 'implies' mean?", options: ["states directly", "suggests indirectly", "disagrees"], a: "suggests indirectly", lesson: "Implies = gợi ý/ám chỉ gián tiếp (suggests without stating directly)." },
+            { type: "multiple_choice", q: "'Pollution levels have risen sharply since 2010.' Best title?", options: ["History of pollution", "Rising pollution since 2010", "Types of pollution"], a: "Rising pollution since 2010", lesson: "Tiêu đề phải bao quát ý chính: ô nhiễm tăng từ 2010." },
+            { type: "fill_blank", q: "'Cities grew rapidly in the 20th century.' 'Rapidly' can be replaced by ___.", a: "quickly", lesson: "Rapidly = quickly (nhanh chóng). Các từ đồng nghĩa: fast, swiftly." },
+          ]
+        }
+      },
+      writing: {
+        title: "Kỹ năng Viết lại câu", icon: "✍️",
+        theory: `<strong>Probably will → Might:</strong> She will probably come. → She might come.<br><strong>Because ↔ So:</strong> It rained so we stayed. ↔ We stayed because it rained.<br><strong>Although → But:</strong> Although cold, we went out. ↔ It was cold, but we went out.<br><strong>Active → Passive:</strong> She cleans the room. → The room is cleaned by her.`,
+        levels: {
+          easy: [
+            { type: "multiple_choice", q: "'She will probably be late.' → She ___ be late.", options: ["might", "must", "should"], a: "might", lesson: "'Probably will' → 'Might': diễn đạt khả năng không chắc chắn." },
+            { type: "multiple_choice", q: "'It was raining, so I stayed home.' → I stayed home ___ it was raining.", options: ["because", "although", "but"], a: "because", lesson: "So (kết quả) ↔ Because (nguyên nhân): ...kết quả... because ...nguyên nhân..." },
+            { type: "fill_blank", q: "'No animal is bigger than the blue whale.' → The blue whale is ___ animal.", a: "the biggest", lesson: "No...bigger than X → X is the biggest. So sánh nhất." },
+            { type: "multiple_choice", q: "'He is too young to drive.' → He is ___ young that he can't drive.", options: ["so", "very", "such"], a: "so", lesson: "Too + adj → so + adj + that + can't." },
+            { type: "fill_blank", q: "'She cleans the room.' → The room ___ by her.", a: "is cleaned", lesson: "Bị động (Passive): S + is/are + V3/ed + by + agent." },
+          ],
+          medium: [
+            { type: "error_correction", q: "'Although it was cold, but we went out.'", a: "Although it was cold, we went out.", lesson: "Sau 'Although/Though' KHÔNG dùng 'but'. Chỉ cần: Although + mệnh đề, S + V.", error_word: "but" },
+            { type: "reorder", q: ["tallest", "Minh", "the", "in", "is", "class", "his", "."], a: "Minh is the tallest in his class .", lesson: "Viết lại câu so sánh nhất: S + is + the + adj-est + in + nhóm." },
+            { type: "fill_blank", q: "'I find this book interesting.' → I ___ reading this book.", a: "enjoy", lesson: "Find + N + adj → Enjoy + V-ing." },
+            { type: "multiple_choice", q: "'She started learning English 3 years ago.' → She ___ English for 3 years.", options: ["has learned", "learned", "is learning"], a: "has learned", lesson: "Started ago → Hiện tại hoàn thành: has/have + V3/ed + for + khoảng thời gian." },
+          ],
+          hard: [
+            { type: "reorder", q: ["study", "hard", "Unless", "you", "pass", "you", "the", "won't", "exam", "."], a: "Unless you study hard you won't pass the exam .", lesson: "Unless = If...not. Cấu trúc: Unless + S + V (HT đơn), S + will/won't + V." },
+            { type: "fill_blank", q: "'It took her 2 hours to finish the essay.' → She spent 2 hours ___ the essay.", a: "finishing", lesson: "It takes + time + to V → spend + time + V-ing." },
+            { type: "error_correction", q: "'This bridge was build in 1990.'", a: "built", lesson: "Bị động Quá khứ đơn: was/were + V3/ed. Build (V3) là 'built'.", error_word: "build" },
+          ]
+        }
+      }
+    };
+
+    /* ═══════════════════════════════════════════════
+       STATE
+    ═══════════════════════════════════════════════ */
+    let currentTopic = null, selectedDiff = null, selectedCount = 5;
+    let questions = [], currentQ = 0, score = 0, answers = [];
+    let selectedOpt = null, reorderPlaced = [], reorderWords = [];
+
+    const TYPE_LBL = { multiple_choice: 'Trắc nghiệm', fill_blank: 'Điền vào chỗ trống', reorder: 'Sắp xếp câu', error_correction: 'Sửa lỗi sai' };
+    const DIFF_LBL = { easy: '🟢 Dễ', medium: '🟡 Trung bình', hard: '🔴 Khó' };
+
+    /* ═══════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════ */
+    function showPage(id) {
+      // 1. Tìm tất cả các trang có class 'page'
+      const allPages = document.querySelectorAll('.page');
+
+      // 2. Duyệt qua từng trang để ẩn triệt để
+      allPages.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none'; // Ép ẩn hoàn toàn, không cho hiện mờ mờ
+      });
+
+      // 3. Hiển thị đúng trang thầy muốn
+      const pg = document.getElementById('page-' + id);
+      if (pg) {
+        pg.style.display = 'block'; // Hiện lại thẻ trước
+        // Dùng setTimeout nhẹ để animation fadeIn chạy mượt mà
+        setTimeout(() => {
+          pg.classList.add('active');
+        }, 10);
+        pg.scrollTop = 0; // Đưa cuộn trang về đầu cho chuyên nghiệp
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       TOPICS
+    ═══════════════════════════════════════════════ */
+    function renderTopics() {
+      const g = document.getElementById('topic-grid');
+      g.innerHTML = '';
+      Object.entries(DATABASE).forEach(([key, d]) => {
+        const total = Object.values(d.levels).reduce((s, l) => s + l.length, 0);
+        const el = document.createElement('div');
+        el.className = 'topic-card glass';
+        el.innerHTML = `<div class="tc-icon">${d.icon}</div><div class="tc-name">${d.title}</div><div class="tc-count">${total} câu hỏi</div><div class="tc-arrow">→</div>`;
+        el.onclick = () => selectTopic(key);
+        g.appendChild(el);
+      });
+    }
+
+    function selectTopic(key) {
+      currentTopic = key;
+      const d = DATABASE[key];
+      document.getElementById('detail-card').innerHTML = `
+    <div class="detail-icon-wrap">${d.icon}</div>
+    <div class="dtitle">${d.title}</div>
+    <div class="theory-label">📝 Lý thuyết</div>
+    <div class="theory-box">${d.theory}</div>
+    <div class="action-btns">
+      <button class="btn-action btn-action-out" onclick="showLearn()"><span class="ai">📘</span>Học kiến thức</button>
+      <button class="btn-action btn-action-pri" onclick="showSetup()"><span class="ai">✏️</span>Luyện tập</button>
+    </div>`;
+      showPage('topic-detail');
+    }
+
+    /* ═══════════════════════════════════════════════
+       LEARN
+    ═══════════════════════════════════════════════ */
+    function showLearn() {
+      const d = DATABASE[currentTopic];
+      let h = `<div class="learn-card glass">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.1rem;">
+      <span style="font-size:2rem;">${d.icon}</span>
+      <div><div class="theory-label">CHỦ ĐỀ</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;">${d.title}</div></div>
+    </div>
+    <div class="theory-label">📝 Lý thuyết trọng tâm</div>
+    <div class="theory-box">${d.theory}</div>`;
+      Object.entries(d.levels).forEach(([lvl, qs]) => {
+        h += `<div class="level-heading">${DIFF_LBL[lvl]}</div>`;
+        qs.slice(0, 2).forEach(q => {
+          const qt = Array.isArray(q.q) ? q.q.join(' ') : q.q;
+          h += `<div class="learn-eg">
+        <div class="learn-eg-type">${TYPE_LBL[q.type] || q.type}</div>
+        <div class="learn-eg-q">${qt}</div>
+        <div class="learn-eg-a">→ ${q.a}</div>
+        <div class="lesson-box" style="margin-top:.6rem;">
+          <span class="li">💡</span><div class="lb"><span class="ll">Giải thích: </span>${q.lesson}</div>
+        </div>
+      </div>`;
+        });
+      });
+      h += '</div>';
+      document.getElementById('learn-content').innerHTML = h;
+      showPage('learn');
+    }
+
+    /* ═══════════════════════════════════════════════
+       SETUP
+    ═══════════════════════════════════════════════ */
+    function showSetup() {
+      selectedDiff = null; selectedCount = 5;
+      ['easy', 'medium', 'hard'].forEach(d => document.getElementById('btn-' + d).classList.remove('sel'));
+      [5, 10, 15, 20].forEach(n => document.getElementById('btn-' + n).classList.remove('sel'));
+      showPage('setup');
+    }
+    function selectDiff(d) {
+      selectedDiff = d;
+      ['easy', 'medium', 'hard'].forEach(x => document.getElementById('btn-' + x).classList.toggle('sel', x === d));
+    }
+    function selectCount(n) {
+      selectedCount = n;
+      [5, 10, 15, 20].forEach(x => document.getElementById('btn-' + x).classList.toggle('sel', x === n));
+    }
+
+    /* ═══════════════════════════════════════════════
+       EXERCISE
+    ═══════════════════════════════════════════════ */
+    function startExercise() {
+      if (!selectedDiff) { alert('Vui lòng chọn độ khó!'); return; }
+      const pool = DATABASE[currentTopic].levels[selectedDiff];
+      if (!pool || !pool.length) { alert('Chủ đề này chưa có câu hỏi ở độ khó này!'); return; }
+      questions = shuffle([...pool]).slice(0, Math.min(selectedCount, pool.length));
+      currentQ = 0; score = 0; answers = [];
+      showPage('exercise');
+      renderQuestion();
+    }
+
+    function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+    function renderQuestion() {
+      const d = DATABASE[currentTopic], q = questions[currentQ], total = questions.length;
+      document.getElementById('ex-topic-lbl').textContent = `${d.icon} ${d.title}`;
+      document.getElementById('ex-prog-lbl').textContent = `Câu ${currentQ + 1} / ${total}`;
+      document.getElementById('prog-fill').style.width = ((currentQ / total) * 100) + '%';
+      document.getElementById('btn-submit').style.display = 'inline-flex';
+      document.getElementById('btn-next').style.display = 'none';
+      document.getElementById('feedback-box').innerHTML = '';
+      selectedOpt = null; reorderPlaced = []; reorderWords = [];
+
+      let html = `<span class="q-type-tag">${TYPE_LBL[q.type]}</span><span class="diff-tag">${DIFF_LBL[selectedDiff]}</span>`;
+
+      if (q.type === 'multiple_choice') {
+        html += `<div class="q-text">${q.q}</div><div class="mc-options">
+    ${q.options.map((opt, i) => `<button class="opt-btn" onclick="selOpt(this,'${opt.replace(/'/g, "\\'")}')">
+      <span class="opt-letter">${String.fromCharCode(65 + i)}</span>${opt}</button>`).join('')}</div>`;
+      } else if (q.type === 'fill_blank') {
+        html += `<div class="q-text">${q.q}</div><input type="text" class="fill-input" id="fill-inp" placeholder="Nhập đáp án của bạn..." autocomplete="off"/>`;
+      } else if (q.type === 'error_correction') {
+        const raw = Array.isArray(q.q) ? q.q.join(' ') : q.q;
+        const hi = q.error_word ? raw.replace(new RegExp(`(${q.error_word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<span class="err-word">$1</span>') : raw;
+        html += `<div class="q-text" style="font-size:.88rem;color:var(--c-muted);margin-bottom:.4rem;">🔍 Tìm và sửa lỗi sai:</div>
+    <div class="ec-sentence">${hi}</div>
+    <input type="text" class="fill-input" id="err-inp" placeholder="Nhập dạng đúng của từ sai..." autocomplete="off"/>`;
+      } else if (q.type === 'reorder') {
+        reorderWords = shuffle([...q.q]);
+        html += `<div class="q-text" style="font-size:.88rem;color:var(--c-muted);margin-bottom:.4rem;">📌 Sắp xếp thành câu đúng:</div>
+    <div class="reorder-hint">Click từng từ để xây dựng câu. Click từ đã đặt để xóa.</div>
+    <div class="drop-zone" id="dz"></div>
+    <div class="word-bank">${reorderWords.map((w, i) => `<span class="word-chip" id="wc-${i}" onclick="placeW('${w.replace(/'/g, "\\'")}',${i})">${w}</span>`).join('')}</div>`;
+      }
+      document.getElementById('q-container').innerHTML = html;
+    }
+
+    function selOpt(btn, val) {
+      document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel'); selectedOpt = val;
+    }
+    function placeW(word, idx) {
+      const c = document.getElementById('wc-' + idx);
+      if (c && c.classList.contains('used')) return;
+      if (c) c.classList.add('used');
+      reorderPlaced.push({ word, idx }); renderDZ();
+    }
+    function renderDZ() {
+      const dz = document.getElementById('dz');
+      if (!dz) return;
+      dz.innerHTML = reorderPlaced.map((item, i) => `<span class="placed-chip" onclick="remW(${i})">${item.word} <span class="rem">×</span></span>`).join('');
+    }
+    function remW(i) {
+      const c = document.getElementById('wc-' + reorderPlaced[i].idx);
+      if (c) c.classList.remove('used');
+      reorderPlaced.splice(i, 1); renderDZ();
+    }
+
+    function getAns() {
+      const q = questions[currentQ];
+      if (q.type === 'multiple_choice') return selectedOpt || '';
+      if (q.type === 'fill_blank') return (document.getElementById('fill-inp')?.value || '').trim();
+      if (q.type === 'error_correction') return (document.getElementById('err-inp')?.value || '').trim();
+      if (q.type === 'reorder') return reorderPlaced.map(i => i.word).join(' ');
+      return '';
+    }
+    function chkAns(user, correct) {
+      const u = user.toLowerCase().trim().replace(/\s+/g, ' ');
+      const c = correct.toLowerCase().trim().replace(/\s+/g, ' ');
+      if (c.includes('/')) return c.split('/').some(a => u === a.trim().toLowerCase());
+      return u === c;
+    }
+
+    function submitAnswer() {
+      const q = questions[currentQ], ua = getAns();
+      if (!ua) { alert('Vui lòng nhập đáp án!'); return; }
+      const ok = chkAns(ua, q.a);
+      if (ok) score++;
+      answers.push({ q, userAns: ua, correct: ok });
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-next').style.display = 'inline-flex';
+      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+      const fi = document.getElementById('fill-inp'); if (fi) fi.disabled = true;
+      const ei = document.getElementById('err-inp'); if (ei) ei.disabled = true;
+      document.querySelectorAll('.word-chip').forEach(c => c.style.pointerEvents = 'none');
+      document.querySelectorAll('.placed-chip').forEach(c => c.style.pointerEvents = 'none');
+      const fb = document.getElementById('feedback-box');
+      if (ok) {
+        fb.innerHTML = `<div class="feedback-wrap"><div class="fb-correct">
+      <span style="font-size:1.4rem;line-height:1;">✅</span>
+      <div><div class="fb-title" style="color:var(--c-success);">Chính xác! Làm tốt lắm!</div>
+      <div class="fb-ans">Đáp án đúng: <strong>${q.a}</strong></div></div></div></div>`;
+      } else {
+        fb.innerHTML = `<div class="feedback-wrap"><div class="fb-wrong">
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;">
+        <span style="font-size:1.4rem;">❌</span>
+        <div><div class="fb-title" style="color:var(--c-danger);">Chưa đúng rồi!</div>
+        <div class="fb-ans">Bạn trả lời: <strong style="color:var(--c-danger);">${ua}</strong></div>
+        <div class="fb-ans">Đáp án đúng: <strong style="color:var(--c-success);">${q.a}</strong></div></div>
+      </div>
+      <div class="lesson-box">
+        <span class="li">📚</span><div class="lb"><span class="ll">Bài học cho con: </span>${q.lesson}</div>
+      </div></div></div>`;
+      }
+    }
+
+    function nextQuestion() { currentQ++; if (currentQ >= questions.length) showResult(); else renderQuestion(); }
+
+    /* ═══════════════════════════════════════════════
+       RESULT
+    ═══════════════════════════════════════════════ */
+    function showResult() {
+      const total = questions.length, pct = Math.round((score / total) * 100);
+      const col = pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#dc2626';
+      const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪';
+      const msg = pct >= 80 ? 'Xuất sắc! Con học rất giỏi!' : pct >= 50 ? 'Khá tốt! Tiếp tục cố gắng nhé!' : 'Cần ôn tập thêm! Đừng nản lòng!';
+      const wrong = total - score, deg = pct * 3.6, circ = 2 * Math.PI * 48;
+      let det = '';
+      answers.forEach((ans, i) => {
+        const { q, userAns, correct } = ans;
+        const qt = Array.isArray(q.q) ? q.q.join(' ') : q.q;
+        det += `<div class="detail-item ${correct ? 'ci' : 'wi'}">
+      <div class="di-head">
+        <span class="di-badge ${correct ? 'c' : 'w'}">${correct ? 'Đúng' : 'Sai'}</span>
+        <span class="di-type">${TYPE_LBL[q.type]}</span>
+        <span class="di-num">Câu ${i + 1}</span>
+      </div>
+      <div class="di-q">${qt}</div>
+      <div class="di-ans">Bạn trả lời: <strong style="color:${correct ? 'var(--c-success)' : 'var(--c-danger)'};">${userAns || '(Bỏ trống)'}</strong></div>
+      ${!correct ? `<div class="di-ans">Đáp án đúng: <strong style="color:var(--c-success);">${q.a}</strong></div>
+      <div class="lesson-box" style="margin-top:.6rem;"><span class="li">📚</span><div class="lb"><span class="ll">Bài học cho con: </span>${q.lesson}</div></div>` : ''}
+    </div>`;
+      });
+      document.getElementById('result-content').innerHTML = `
+    <div class="result-hero glass">
+      <div style="font-size:2.5rem;margin-bottom:.5rem;">${emoji}</div>
+      <div class="theory-label" style="margin-bottom:.3rem;">KẾT QUẢ BÀI LUYỆN TẬP</div>
+      <div style="font-size:.82rem;color:var(--c-muted);margin-bottom:1.4rem;">${DATABASE[currentTopic].icon} ${DATABASE[currentTopic].title} · ${DIFF_LBL[selectedDiff]}</div>
+      <div class="score-ring">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,0,0,.07)" stroke-width="10"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="${col}" stroke-width="10"
+            stroke-dasharray="${(deg / 360) * circ} ${circ}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-inner">
+          <div class="score-num" style="color:${col};">${score}/${total}</div>
+          <div class="score-pct">${pct}%</div>
+        </div>
+      </div>
+      <div class="result-msg">${msg}</div>
+      <div class="result-sub">${DATABASE[currentTopic].title} · ${DIFF_LBL[selectedDiff]}</div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num" style="color:var(--c-success);">${score}</div><div class="stat-lbl">Câu đúng</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--c-danger);">${wrong}</div><div class="stat-lbl">Câu sai</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--c-accent);">${total}</div><div class="stat-lbl">Tổng câu</div></div>
+      </div>
+      <div class="result-btns">
+        <button class="btn-again" onclick="startExercise()">🔄 Luyện lại</button>
+        <button class="btn-other" onclick="showPage('topics')">📖 Chủ đề khác</button>
+      </div>
+    </div>
+    ${wrong > 0 ? `<div class="detail-section glass"><div class="det-title">📋 Chi tiết bài làm</div>${det}</div>` : `
+    <div class="detail-section glass" style="text-align:center;">
+      <div style="font-size:2rem;margin-bottom:.5rem;">🏆</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--c-success);">Hoàn hảo! Đúng tất cả!</div>
+      <div style="font-size:.85rem;color:var(--c-muted);margin-top:.4rem;">Không có câu nào cần xem lại.</div>
+    </div>`}
+    <div class="detail-section glass" style="padding:1.2rem 1.5rem;">
+      <div class="det-title" style="font-size:.95rem;margin-bottom:.7rem;">📊 Tổng hợp</div>
+      ${answers.map((ans, i) => `
+        <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid rgba(99,82,180,.08);">
+          <span style="font-size:.8rem;color:var(--c-muted);font-weight:700;min-width:24px;">C${i + 1}</span>
+          <span style="flex:1;font-size:.82rem;color:var(--c-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${Array.isArray(ans.q.q) ? ans.q.q.join(' ') : ans.q.q}</span>
+          <span>${ans.correct ? '✅' : '❌'}</span>
+        </div>`).join('')}
+    </div>`;
+      showPage('result');
+    }
+
+    /* ── INIT ── */
+    renderTopics();
+  </script>
+</body>
+
+</html>
