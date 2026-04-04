@@ -1351,8 +1351,31 @@
     ═══════════════════════════════════════════════ */
     const DATABASE = {
       tenses: {
-        title: "Các thì của động từ", icon: "⏰",
-        theory: `<strong>1. Quá khứ đơn:</strong> S + V2/ed | yesterday, ago, last night/week.<br><strong>2. Tương lai đơn:</strong> S + will + V | tomorrow, next week.<br><strong>3. Hiện tại đơn:</strong> S + V(s/es) | every day, always, usually.<br><strong>4. Hiện tại tiếp diễn:</strong> S + am/is/are + V-ing | now, at the moment, Look!, Listen!`,
+        title: "Các thì của động từ",
+        icon: "⏰",
+        theory: `<strong>1. THÌ QUÁ KHỨ ĐƠN (PAST SIMPLE):</strong><br>
+        Dùng cho hành động đã kết thúc trong quá khứ.<br>
+        • Khẳng định: S + V2/ed. Phủ định: S + didn't + V (nguyên thể).<br>
+        • Dấu hiệu: yesterday, ago, last night, last Sunday, in 1940, in 776 BC.<br>
+        • Ví dụ: Pele was born in 1940. / We visited our grandparents last week. / The first Olympic Games took place in 776 BC.<br><br>
+
+        <strong>2. THÌ TƯƠNG LAI ĐƠN (FUTURE SIMPLE):</strong><br>
+        Dùng để đưa ra dự đoán hoặc hành động sẽ xảy ra trong tương lai.<br>
+        • Khẳng định: S + will + V (nguyên thể). Phủ định: S + won't + V.<br>
+        • Dấu hiệu: tomorrow, next week, in the future.<br>
+        • Ví dụ: Robots will help us do the housework. / We'll live in that cottage next year. / I think I will watch some movies at home.<br><br>
+
+        <strong>3. THÌ HIỆN TẠI ĐƠN (PRESENT SIMPLE):</strong><br>
+        Diễn tả thói quen, sự kiện thường xuyên hoặc sự thật hiển nhiên.<br>
+        • Cấu trúc: S (số nhiều) + V (nguyên mẫu), S (số ít) + V(s/es).<br>
+        • Dấu hiệu: usually, often, every day, at weekends, every Sunday.<br>
+        • Ví dụ: Lan usually plays volleyball every Sunday. / The Sun keeps the Earth warm. / Havana is the capital of Cuba.<br><br>
+
+        <strong>4. THÌ HIỆN TẠI TIẾP DIỄN (PRESENT CONTINUOUS):</strong><br>
+        Diễn tả hành động đang xảy ra ngay tại thời điểm nói.<br>
+        • Cấu trúc: S + am/is/are + V-ing.<br>
+        • Dấu hiệu: now, at the moment, right now, Look!, Listen!<br>
+        • Ví dụ: Nam is reading a book now. / Jack is watching cartoons right now! / Look! Some boys are running around the class.`,
         levels: {
           easy: [
             // --- NHÓM 1: HIỆN TẠI ĐƠN (Present Simple) ---
@@ -1403,31 +1426,125 @@
             { type: "multiple_choice", q: "I think we ___ to the moon in the future.", options: ["go", "went", "will go"], a: "will go", lesson: "'In the future' (trong tương lai) → dùng Tương lai đơn: will + V.", error_word: "go" }
           ],
           hard: [
-            // --- NHÓM 1: CÂU ĐIỀU KIỆN LOẠI 1 (Conditional Sentence Type 1) ---
-            { type: "reorder", q: ["If", "it", "rains", ",", "we", "will", "stay", "at", "home", "."], a: "If it rains, we will stay at home.", lesson: "Câu điều kiện loại 1: Diễn tả điều có thể xảy ra. Cấu trúc: If + Hiện tại đơn, S + will + V (nguyên mẫu)." },
-            { type: "fill_blank", q: "If she (study) ___ hard, she will pass the exam.", a: "studies", lesson: "Trong mệnh đề 'If', ta dùng thì Hiện tại đơn. She (số ít) → studies." },
-            { type: "multiple_choice", q: "We will go camping if the weather ___ fine.", options: ["is", "was", "will be"], a: "is", lesson: "Câu điều kiện loại 1: Mệnh đề 'If' dùng Hiện tại đơn. Weather (số ít) → to be là 'is'." },
+            // 2.1. Reorder
+            { type: "reorder", q: ["is", "He", "always", "losing", "his", "keys", "."], a: "He is always losing his keys.", lesson: "HTTD + Always: Diễn tả một sự phàn nàn về hành động lặp đi lặp lại gây khó chịu." },
+            { type: "reorder", q: ["will", "you", "What", "do", "when", "you", "grow", "up", "?"], a: "What will you do when you grow up?", lesson: "Phối hợp thì: Vế 'when' chia Hiện tại đơn để nói về tương lai, vế chính dùng Tương lai đơn." },
+            { type: "reorder", q: ["didn't", "She", "use", "to", "like", "carrots", "."], a: "She didn't use to like carrots.", lesson: "Quá khứ đơn với 'Used to': Diễn tả một thói quen hoặc trạng thái trong quá khứ nay không còn nữa." },
+            { type: "reorder", q: ["are", "Why", "you", "being", "so", "selfish", "today", "?"], a: "Why are you being so selfish today?", lesson: "HTTD với 'Being': Diễn tả một hành vi/cách cư xử tạm thời khác với tính cách thường ngày." },
+            { type: "reorder", q: ["thinks", "I", "he", "is", "a", "good", "student", "."], a: "I think he is a good student.", lesson: "Động từ chỉ trạng thái (Think/Believe): Thường chỉ chia ở Hiện tại đơn, không dùng tiếp diễn." },
 
-            // --- NHÓM 2: QUÁ KHỨ TIẾP DIỄN & SỰ PHỐI HỢP THÌ ---
-            { type: "reorder", q: ["was", "at", "She", "studying", "8", "pm", "last", "night", "."], a: "She was studying at 8 pm last night.", lesson: "Quá khứ tiếp diễn: Diễn tả hành động đang xảy ra tại một mốc thời gian cụ thể trong quá khứ." },
-            { type: "fill_blank", q: "While they (play) ___ chess, it started to rain.", a: "were playing", lesson: "Hành động đang diễn ra (Quá khứ tiếp diễn) thì có hành động khác xen vào (Quá khứ đơn)." },
-            { type: "multiple_choice", q: "What ___ you doing at this time yesterday?", options: ["are", "were", "did"], a: "were", lesson: "Câu hỏi thì Quá khứ tiếp diễn: What + was/were + S + V-ing?" },
+            // 2.2. Fill blank
+            { type: "fill_blank", q: "Listen! Your mother (call) ___ you downstairs.", a: "is calling", lesson: "Dấu hiệu 'Listen!' yêu cầu dùng thì Hiện tại tiếp diễn cho hành động đang xảy ra." },
+            { type: "fill_blank", q: "Last week, I (not/go) ___ to the cinema with them.", a: "did not go", lesson: "Phủ định Quá khứ đơn: Did + not + V-inf. 'Last week' là mốc thời gian đã qua." },
+            { type: "fill_blank", q: "I promise I (help) ___ you with your project tonight.", a: "will help", lesson: "Dùng Tương lai đơn (Will) cho lời hứa hoặc quyết định ngay tại thời điểm nói." },
+            { type: "fill_blank", q: "Every day she (walk), but today she (cycle) ___.", a: "walks - is cycling", lesson: "Sự đối lập giữa thói quen (HTĐ) và hành động tạm thời hôm nay (HTTD)." },
+            { type: "fill_blank", q: "Did you (see) ___ the rainbow yesterday?", a: "see", lesson: "Trong câu hỏi Quá khứ đơn, sau 'Did' động từ phải giữ nguyên mẫu." },
 
-            // --- NHÓM 3: CÂU HỎI VÀ TRẠNG TỪ PHỨC TẠP ---
-            { type: "reorder", q: ["does", "often", "What", "do", "she", "?"], a: "What does she often do?", lesson: "Câu hỏi Hiện tại đơn số ít: What + does + S + often + V (nguyên mẫu)?" },
-            { type: "error_correction", q: "How many brothers and sisters does you have?", a: "do", lesson: "Chủ ngữ 'you' phải đi với trợ động từ 'do' trong câu hỏi Hiện tại đơn.", error_word: "does" },
-            { type: "reorder", q: ["will", "you", "Where", "be", "tomorrow", "?"], a: "Where will you be tomorrow?", lesson: "Câu hỏi Tương lai đơn: Wh-word + will + S + V (nguyên mẫu)?" },
-            { type: "fill_blank", q: "My father (not/work) ___ in the garden now.", a: "is not working", lesson: "Phủ định Hiện tại tiếp diễn: am/is/are + not + V-ing. My father → is not working." },
+            // 2.3. Multiple Choice
+            { type: "multiple_choice", q: "I ___ a very interesting book at the moment.", options: ["read", "am reading", "will read"], a: "am reading", lesson: "'At the moment' là dấu hiệu đặc trưng của thì Hiện tại tiếp diễn." },
+            { type: "multiple_choice", q: "When I was young, I ___ up early every morning.", options: ["get", "got", "will get"], a: "got", lesson: "Kể về một thói quen trong quá khứ (When I was young) dùng thì Quá khứ đơn." },
+            { type: "multiple_choice", q: "Look! That man ___ to open your car door.", options: ["tries", "is trying", "tried"], a: "is trying", lesson: "Dấu hiệu 'Look!' chỉ một hành động đang diễn ra ngay lúc nói." },
+            { type: "multiple_choice", q: "I think it ___ rain this afternoon.", options: ["is", "will", "does"], a: "will", lesson: "Dùng 'Will' để đưa ra dự đoán dựa trên quan điểm cá nhân (thường đi với 'I think')." },
+            { type: "multiple_choice", q: "She ___ coffee. She prefers tea.", options: ["doesn't like", "isn't liking", "didn't liked"], a: "doesn't like", lesson: "'Like' là động từ trạng thái, không chia tiếp diễn. Dùng HTĐ để chỉ sở thích." },
 
-            // --- NHÓM 4: PHÂN BIỆT THÌ (Mixed Tenses) ---
-            { type: "multiple_choice", q: "Last year, I ___ to Ha Noi, but next year I ___ Ho Chi Minh City.", options: ["go - visit", "went - will visit", "went - visited"], a: "went - will visit", lesson: "Kết hợp Quá khứ đơn (Last year) và Tương lai đơn (Next year)." },
-            { type: "error_correction", q: "Listen! The birds are sing on the tree.", a: "singing", lesson: "Sau 'are' trong thì Hiện tại tiếp diễn, động từ phải thêm đuôi -ing: singing.", error_word: "sing" }
+            // 2.4. Error Correction
+            { type: "error_correction", q: "I am play football with my friends every Sunday.", a: "play", lesson: "Lỗi dùng thì: Thói quen (every Sunday) phải dùng Hiện tại đơn, không dùng 'am + V'.", error_word: "am play" },
+            { type: "error_correction", q: "What did you bought at the mall yesterday?", a: "buy", lesson: "Lỗi động từ: Sau trợ động từ 'Did', động từ chính phải ở dạng nguyên mẫu 'buy'.", error_word: "bought" },
+            { type: "error_correction", q: "The sun is rising in the East.", a: "rises", lesson: "Lỗi thì: Sự thật hiển nhiên luôn luôn đúng phải chia ở thì Hiện tại đơn.", error_word: "is rising" },
+            { type: "error_correction", q: "I will call you as soon as I will arrive.", a: "arrive", lesson: "Lỗi phối hợp: Sau liên từ 'as soon as/when', ta dùng Hiện tại đơn để nói về tương lai.", error_word: "will arrive" },
+            { type: "error_correction", q: "He is work in the garden at the moment.", a: "is working", lesson: "Lỗi thì: Dấu hiệu 'at the moment' yêu cầu dùng Hiện tại tiếp diễn (be + V-ing).", error_word: "is work" },
+
+            // ==========================================
+            // --- NHÓM 3: CÂU HỎI & TRẠNG TỪ (20 câu) ---
+            // ==========================================
+            // 3.1. Reorder
+            { type: "reorder", q: ["does", "often", "What", "do", "she", "?"], a: "What does she often do?", lesson: "Cấu trúc: Wh-word + do/does + S + trạng từ tần suất + V-inf?" },
+            { type: "reorder", q: ["never", "He", "is", "late", "for", "school", "."], a: "He is never late for school.", lesson: "Vị trí trạng từ: Đứng SAU động từ 'To be' (is/am/are) và TRƯỚC động từ thường." },
+            { type: "reorder", q: ["will", "you", "Where", "be", "tomorrow", "?"], a: "Where will you be tomorrow?", lesson: "Câu hỏi tương lai đơn: Wh-word + will + S + V-inf? (be là động từ nguyên mẫu)." },
+            { type: "reorder", q: ["doing", "are", "you", "now", "What", "?"], a: "What are you doing now?", lesson: "Câu hỏi HTTD: Wh-word + am/is/are + S + V-ing? 'Now' đứng cuối câu." },
+            { type: "reorder", q: ["Did", "you", "go", "out", "yesterday", "?"], a: "Did you go out yesterday?", lesson: "Câu hỏi nghi vấn QKĐ: Did + S + V-inf? Khi có 'Did' thì 'go' không chia 'went'." },
+            // 3.2. Fill blank
+            { type: "fill_blank", q: "My father (not/work) ___ in the garden now.", a: "is not working", lesson: "Dấu hiệu 'now' → HTTD. Phủ định: is/am/are + not + V-ing. My father là số ít." },
+            { type: "fill_blank", q: "How often ___ she go to the gym?", a: "does", lesson: "Câu hỏi tần suất ở hiện tại đơn. Chủ ngữ 'She' số ít nên dùng trợ động từ 'does'." },
+            { type: "fill_blank", q: "What ___ you (do) last weekend?", a: "did - do", lesson: "Dấu hiệu 'last weekend' → QKĐ. Cấu trúc câu hỏi: Did + S + V-inf?" },
+            { type: "fill_blank", q: "They (usually/not/walk) ___ to school.", a: "do not usually walk", lesson: "Phủ định HTĐ: S + do/does + not + trạng từ + V-inf. 'They' đi với 'do not'." },
+            { type: "fill_blank", q: "Listen! The baby (cry) ___.", a: "is crying", lesson: "Câu mệnh lệnh 'Listen!' chỉ hành động đang xảy ra → dùng thì Hiện tại tiếp diễn." },
+            // 3.3. Multiple Choice
+            { type: "multiple_choice", q: "How often ___ you go to the cinema?", options: ["do", "does", "are"], a: "do", lesson: "Dùng trợ động từ 'do' vì chủ ngữ là 'You' và câu hỏi ở hiện tại đơn." },
+            { type: "multiple_choice", q: "Where ___ they last summer?", options: ["are", "were", "did"], a: "were", lesson: "Hỏi về trạng thái ở quá khứ. 'They' số nhiều nên dùng to be 'were'. Loại 'did' vì không có động từ thường." },
+            { type: "multiple_choice", q: "Look! The cat ___ on the table.", options: ["sits", "is sitting", "sitting"], a: "is sitting", lesson: "Dấu hiệu 'Look!' → HTTD. Cấu trúc: am/is/are + V-ing." },
+            { type: "multiple_choice", q: "She ___ gets up early on Sundays.", options: ["is", "never", "does"], a: "never", lesson: "Dùng trạng từ tần suất 'never' để bổ nghĩa cho động từ 'gets up'. Không dùng 'is' hay 'does' ở đây." },
+            { type: "multiple_choice", q: "Will they ___ us tomorrow?", options: ["visit", "visiting", "visited"], a: "visit", lesson: "Sau trợ động từ 'will', động từ chính luôn ở dạng nguyên mẫu không 'to'." },
+            // 3.4. Error Correction
+            { type: "error_correction", q: "How many sisters does you have?", a: "do", lesson: "Lỗi trợ động từ: Chủ ngữ 'You' phải đi với 'do', không dùng 'does'.", error_word: "does" },
+            { type: "error_correction", q: "He is always go to school on time.", a: "goes", lesson: "Lỗi dư 'is': Trong HTĐ với động từ thường, không dùng to be trước động từ chính.", error_word: "is always go" },
+            { type: "error_correction", q: "What was you doing at that time?", a: "were", lesson: "Lỗi To be: 'You' luôn đi với 'were', kể cả trong câu hỏi.", error_word: "was" },
+            { type: "error_correction", q: "She not often eats breakfast.", a: "does not", lesson: "Lỗi phủ định: Câu phủ định HTĐ phải có trợ động từ 'do/does' trước 'not'.", error_word: "not" },
+            { type: "error_correction", q: "Did she saw the teacher yesterday?", a: "see", lesson: "Lỗi V2: Khi đã có 'Did', động từ chính phải đưa về nguyên mẫu 'see'.", error_word: "saw" },
+
+            // ==========================================
+            // --- NHÓM 4: PHÂN BIỆT THÌ (MIXED) (20 câu) ---
+            // ==========================================
+            // 4.1. Reorder
+            { type: "reorder", q: ["Usually", ",", "I", "cycle", "to", "school", "."], a: "Usually, I cycle to school.", lesson: "HTĐ dùng với 'Usually' để chỉ thói quen lặp đi lặp lại hàng ngày." },
+            { type: "reorder", q: ["But", "today", ",", "I", "am", "walking", "."], a: "But today, I am walking.", lesson: "HTTD dùng với 'today' hoặc 'now' để chỉ hành động khác biệt với thói quen." },
+            { type: "reorder", q: ["Did", "you", "see", "the", "movie", "last", "night", "?"], a: "Did you see the movie last night?", lesson: "Câu hỏi ở quá khứ đơn (last night). Cấu trúc: Did + S + V-inf?" },
+            { type: "reorder", q: ["I", "will", "be", "a", "doctor", "some", "day", "."], a: "I will be a doctor some day.", lesson: "Thì tương lai đơn dùng để nói về ước mơ hoặc dự định trong tương lai xa." },
+            { type: "reorder", q: ["Look", "!", "It", "is", "starting", "to", "rain", "."], a: "Look ! It is starting to rain.", lesson: "Dùng HTTD để miêu tả một sự việc vừa mới bắt đầu xảy ra ngay lúc nói." },
+            // 4.2. Fill blank
+            { type: "fill_blank", q: "Usually I (play) ___ soccer, but today I (stay) ___ home.", a: "play - am staying", lesson: "Vế 1 là thói quen (HTĐ), vế 2 là hành động tạm thời hôm nay (HTTD)." },
+            { type: "fill_blank", q: "Last year I (be) ___ a student, now I (be) ___ a teacher.", a: "was - am", lesson: "Phân biệt quá khứ (Last year - was) và hiện tại (now - am)." },
+            { type: "fill_blank", q: "I (buy) ___ a car tomorrow if I have money.", a: "will buy", lesson: "Câu điều kiện loại 1: Mệnh đề chính chia ở tương lai đơn (will + V)." },
+            { type: "fill_blank", q: "They (not/go) ___ to the park yesterday.", a: "did not go", lesson: "Phủ định quá khứ đơn: Did + not + V-inf. 'Yesterday' là dấu hiệu nhận biết." },
+            { type: "fill_blank", q: "Listen! The birds (sing) ___.", a: "are singing", lesson: "'Listen!' là dấu hiệu HTTD. 'The birds' số nhiều nên đi với 'are singing'." },
+            // 4.3. Multiple Choice
+            { type: "multiple_choice", q: "Next year, my family ___ to Da Lat.", options: ["moves", "moved", "will move"], a: "will move", lesson: "Dấu hiệu 'Next year' chỉ thời gian trong tương lai nên dùng 'will move'." },
+            { type: "multiple_choice", q: "___ he often play football?", options: ["Does", "Do", "Is"], a: "Does", lesson: "Câu hỏi thói quen (HTĐ). Chủ ngữ 'he' số ít nên dùng trợ động từ 'Does'." },
+            { type: "multiple_choice", q: "The birds ___ away yesterday.", options: ["fly", "flew", "flown"], a: "flew", lesson: "Dấu hiệu 'yesterday' → QKĐ. Động từ 'fly' là bất quy tắc, cột 2 là 'flew'." },
+            { type: "multiple_choice", q: "Be quiet! The baby ___.", options: ["sleeps", "is sleeping", "slept"], a: "is sleeping", lesson: "'Be quiet!' (Hãy im lặng) báo hiệu hành động đang diễn ra → chọn HTTD." },
+            { type: "multiple_choice", q: "If we recycle, we ___ trees.", options: ["save", "will save", "saved"], a: "will save", lesson: "Câu điều kiện loại 1: If + HTĐ, tương lai đơn (will + V)." },
+            // 4.4. Error Correction
+            { type: "error_correction", q: "Yesterday I go to the cinema.", a: "went", lesson: "Lỗi thì: 'Yesterday' yêu cầu động từ chia quá khứ. Cột 2 của 'go' là 'went'.", error_word: "go" },
+            { type: "error_correction", q: "Look! The bus comes.", a: "is coming", lesson: "Lỗi thì: 'Look!' yêu cầu dùng thì HTTD (is coming) thay vì HTĐ.", error_word: "comes" },
+            { type: "error_correction", q: "I will meets you next week.", a: "meet", lesson: "Lỗi chia động từ: Sau 'will', động từ luôn ở dạng nguyên mẫu, không thêm 's'.", error_word: "meets" },
+            { type: "error_correction", q: "He doesn't likes coffee.", a: "like", lesson: "Lỗi dư 's': Sau trợ động từ 'doesn't', động từ chính phải bỏ 's' để về nguyên mẫu.", error_word: "likes" },
+            { type: "error_correction", q: "Are you go to school yesterday?", a: "Did", lesson: "Lỗi trợ động từ: Câu hỏi ở quá khứ đơn (yesterday) phải dùng 'Did', không dùng 'Are'.", error_word: "Are" }
           ],
         }
       },
       conditionals: {
         title: "Câu điều kiện loại 1", icon: "🔀",
-        theory: `<strong>Câu điều kiện loại 1:</strong> Diễn tả điều kiện có thể xảy ra trong hiện tại hoặc tương lai.<br><strong>Cấu trúc:</strong> If + S + V (Hiện tại đơn), S + will/won't + V-inf.<br><strong>Ví dụ:</strong> If it rains, I will stay at home.<br><strong>Phủ định:</strong> If + S + don't/doesn't + V, S + won't + V.`,
+        theory: `<strong>1. CÔNG THỨC VÀNG (GOLDEN STRUCTURE):</strong><br>
+        Câu điều kiện gồm 2 mệnh đề: <i>Mệnh đề If (Điều kiện)</i> và <i>Mệnh đề chính (Kết quả)</i>.<br>
+        • <strong>Vế IF:</strong> If + S + V(s/es) —> <strong>Hiện tại đơn</strong><br>
+        • <strong>Vế CHÍNH:</strong> S + will/won't + V-inf —> <strong>Tương lai đơn</strong><br>
+        • VD: If it <u>rains</u>, we <u>will stay</u> at home. (Nếu trời mưa, chúng ta sẽ ở nhà).<br><br>
+
+        <strong>2. CÁCH DÙNG CHI TIẾT (USAGE):</strong><br>
+        • <strong>Dự đoán kết quả:</strong> If you study hard, you will pass the exam. (Nếu bạn học chăm, bạn sẽ đậu kỳ thi).<br>
+        • <strong>Lời cảnh báo:</strong> If you touch that dog, it will bite you! (Nếu bạn chạm vào con chó đó, nó sẽ cắn bạn đấy!).<br>
+        • <strong>Lời hứa/đề nghị:</strong> If you help me, I will give you a gift. (Nếu bạn giúp tôi, tôi sẽ tặng bạn một món quà).<br>
+        • <strong>Chủ đề môi trường:</strong> If we recycle more, we will save the Earth. (Nếu chúng ta tái chế nhiều hơn, chúng ta sẽ cứu Trái Đất).<br><br>
+
+        <strong>3. BIẾN THỂ PHỦ ĐỊNH (NEGATIVE FORM):</strong><br>
+        • <strong>Vế IF:</strong> Dùng don't/doesn't + V-inf. (Nếu... không...)<br>
+        • <strong>Vế CHÍNH:</strong> Dùng won't + V-inf. (Sẽ không...)<br>
+        • VD: If she <u>doesn't hurry</u>, she <u>won't catch</u> the bus. (Nếu cô ấy không khẩn trương, cô ấy sẽ không bắt kịp xe buýt).<br>
+        • VD: If it <u>isn't</u> sunny, we <u>won't go</u> camping. (Nếu trời không nắng, chúng tôi sẽ không đi cắm trại).<br><br>
+
+        <strong>4. VỊ TRÍ MỆNH ĐỀ & DẤU PHẨY:</strong><br>
+        • <strong>If đứng đầu:</strong> Phải có dấu phẩy (,) ở giữa câu.<br>
+        • VD: <u>If</u> I have money<strong>,</strong> I will buy a robot. (Nếu tôi có tiền, tôi sẽ mua một chú rô-bốt).<br>
+        • <strong>If đứng giữa:</strong> Không dùng dấu phẩy.<br>
+        • VD: I will buy a robot <u>if</u> I have money. (Tôi sẽ mua một chú rô-bốt nếu tôi có tiền).<br><br>
+
+        <strong>5. LỖI SAI "KINH ĐIỂN" CẦN TRÁNH:</strong><br>
+        • ❌ <strong>Lỗi 1:</strong> Dùng 'will' trong vế If. (Sai: If it will rain...)<br>
+        • ✅ <strong>Sửa:</strong> Phải dùng Hiện tại đơn (Đúng: If it <u>rains</u>...).<br>
+        • ❌ <strong>Lỗi 2:</strong> Quên chia động từ vế If với chủ ngữ số ít (he/she/it).<br>
+        • ✅ <strong>Sửa:</strong> If she <u>goes</u> (không phải go).<br>
+        • ❌ <strong>Lỗi 3:</strong> Dùng V-ing sau 'will'. (Sai: will helping...)<br>
+        • ✅ <strong>Sửa:</strong> Sau 'will' luôn là động từ nguyên mẫu (will <u>help</u>).`,
         levels: {
           easy: [
             { type: "multiple_choice", q: "If it rains, I ___ stay at home.", options: ["will", "would", "stayed"], a: "will", lesson: "Câu điều kiện loại 1: If + Hiện tại đơn, S + WILL + V-inf." },
@@ -1435,23 +1552,143 @@
             { type: "fill_blank", q: "If you eat too much, you (be) ___ sick.", a: "will be", lesson: "Câu điều kiện loại 1: mệnh đề chính dùng will + V-inf." },
             { type: "multiple_choice", q: "If they don't hurry, they ___ miss the bus.", options: ["will", "would", "are"], a: "will", lesson: "Câu điều kiện loại 1 phủ định: If + don't/doesn't, S + WILL + V." },
             { type: "fill_blank", q: "If I have time, I (visit) ___ you.", a: "will visit", lesson: "If + Hiện tại đơn → mệnh đề chính dùng will + V-inf: will visit." },
+            { type: "multiple_choice", q: "If it rains, I ___ stay at home.", options: ["will", "would", "stayed"], a: "will", lesson: "Câu điều kiện loại 1: Mệnh đề chính dùng WILL + V-inf." },
+            { type: "fill_blank", q: "If you eat too much, you (be) ___ sick.", a: "will be", lesson: "Vế kết quả dùng WILL + nguyên mẫu: will be." },
+            { type: "fill_blank", q: "If I have time, I (visit) ___ you.", a: "will visit", lesson: "If + Hiện tại đơn → Mệnh đề chính dùng WILL + V-inf." },
+            { type: "multiple_choice", q: "If you help me, I ___ happy.", options: ["will be", "am", "was"], a: "will be", lesson: "Diễn tả kết quả ở tương lai: dùng WILL BE." },
+            { type: "fill_blank", q: "If the sun shines, we (go) ___ to the park.", a: "will go", lesson: "Mệnh đề chính dùng WILL + động từ nguyên mẫu." },
+
+            // --- NHÓM 2: CHIA ĐỘNG TỪ VẾ IF (HIỆN TẠI ĐƠN) ---
+            { type: "multiple_choice", q: "If she ___ hard, she will pass the exam.", options: ["study", "studies", "will study"], a: "studies", lesson: "Mệnh đề If dùng Hiện tại đơn. Chủ ngữ 'She' nên động từ thêm 'es'." },
+            { type: "multiple_choice", q: "If we ___ trees, the air will be cleaner.", options: ["plant", "plants", "planted"], a: "plant", lesson: "Chủ ngữ 'We' số nhiều nên động từ 'plant' giữ nguyên ở vế If." },
+            { type: "multiple_choice", q: "If you ___ up early, you won't be late.", options: ["get", "gets", "will get"], a: "get", lesson: "Mệnh đề If không bao giờ dùng 'will'. 'You' đi với động từ nguyên mẫu." },
+            { type: "fill_blank", q: "If he (have) ___ a robot, he will be lazy.", a: "has", lesson: "Chủ ngữ 'He' số ít nên 'have' đổi thành 'has' ở vế If." },
+
+            // --- NHÓM 3: PHỦ ĐỊNH (DON'T/DOESN'T & WON'T) ---
+            { type: "multiple_choice", q: "If they don't hurry, they ___ miss the bus.", options: ["will", "would", "are"], a: "will", lesson: "Phủ định vế If: If + don't/doesn't, vế chính vẫn dùng WILL." },
+            { type: "multiple_choice", q: "If you don't study, you ___ pass the test.", options: ["won't", "don't", "not"], a: "won't", lesson: "Kết quả phủ định dùng 'won't' (viết tắt của will not)." },
+            { type: "fill_blank", q: "If the river (not/be) ___ dirty, the fish will live.", a: "is not", lesson: "To be ở hiện tại đơn phủ định: is not / isn't." },
+            { type: "multiple_choice", q: "If she doesn't come, we ___ start the party.", options: ["won't", "will", "doesn't"], a: "won't", lesson: "Nếu cô ấy không đến, chúng ta 'sẽ không' (won't) bắt đầu." },
+
+            // --- NHÓM 4: CHỦ ĐỀ GLOBAL SUCCESS (MÔI TRƯỜNG & ROBOT) ---
+            { type: "multiple_choice", q: "If we recycle paper, we ___ trees.", options: ["save", "will save", "saved"], a: "will save", lesson: "Chủ đề môi trường: Nếu tái chế giấy, chúng ta 'sẽ' cứu được cây." },
+            { type: "fill_blank", q: "If people (use) ___ less water, they will save money.", a: "use", lesson: "Mệnh đề If hiện tại đơn, 'people' là số nhiều nên 'use' giữ nguyên." },
+            { type: "multiple_choice", q: "If the robot ___ out of battery, it will stop.", options: ["run", "runs", "will run"], a: "runs", lesson: "Robot (số ít) nên vế If động từ 'run' phải thêm 's'." },
+            { type: "multiple_choice", q: "If we walk to school, we ___ help the environment.", options: ["will", "do", "are"], a: "will", lesson: "Kết quả trong tương lai: dùng WILL + V-inf." },
+            { type: "multiple_choice", q: "If he ___ a lot of water, he will be healthy.", options: ["drink", "drinks", "drinking"], a: "drinks", lesson: "Vế If hiện tại đơn: Chủ ngữ 'He' nên động từ thêm 's'." },
+            { type: "fill_blank", q: "If you don't go now, you (be) ___ late for class.", a: "will be", lesson: "Vế chính dùng cấu trúc WILL + nguyên mẫu." },
+            { type: "multiple_choice", q: "If I see a robot, I ___ take a photo.", options: ["will", "am", "was"], a: "will", lesson: "Quyết định tức thì trong tương lai: dùng WILL." },
+            { type: "fill_blank", q: "If she (cook) ___ dinner, I will wash the dishes.", a: "cooks", lesson: "Vế If chia hiện tại đơn, 'She' là số ít nên thêm 's'." },
+            { type: "multiple_choice", q: "If they ___ to the gym, they will feel better.", options: ["go", "goes", "will go"], a: "go", lesson: "Chủ ngữ 'They' số nhiều nên vế If động từ giữ nguyên." },
+            { type: "fill_blank", q: "If you (not/clean) ___ your room, your mom will be angry.", a: "don't clean", lesson: "Phủ định vế If: If + don't/doesn't + V-inf." },
+            { type: "multiple_choice", q: "If the weather is good, we ___ go camping.", options: ["will", "won't", "is"], a: "will", lesson: "Điều kiện có thể xảy ra: dùng WILL." },
+            { type: "fill_blank", q: "If the students (plant) ___ flowers, the school will look beautiful.", a: "plant", lesson: "Chủ ngữ 'Students' số nhiều nên động từ vế If giữ nguyên." },
+            { type: "multiple_choice", q: "If it is cold, I ___ wear a coat.", options: ["will", "won't", "do"], a: "will", lesson: "Hành động xảy ra dựa trên điều kiện: dùng WILL." },
+            { type: "fill_blank", q: "If you (buy) ___ this book, you will learn a lot.", a: "buy", lesson: "Vế If dùng hiện tại đơn với chủ ngữ 'You'." },
+            { type: "multiple_choice", q: "If we use reusable bags, we ___ less plastic.", options: ["will use", "used", "uses"], a: "will use", lesson: "Kết quả của việc bảo vệ môi trường: dùng WILL + V." },
+            { type: "fill_blank", q: "If he (not/work) ___ hard, he will fail the exam.", a: "doesn't work", lesson: "Phủ định vế If: 'He' đi với 'doesn't'." },
+            { type: "multiple_choice", q: "If they play soccer, they ___ tired.", options: ["will be", "is", "are"], a: "will be", lesson: "Kết quả xảy ra sau đó: dùng WILL BE." },
+            { type: "fill_blank", q: "If she (have) ___ a lot of money, she will travel.", a: "has", lesson: "Chủ ngữ số ít 'She' thì 'have' chuyển thành 'has'." },
+            { type: "multiple_choice", q: "If the teacher ___ slowly, we will understand.", options: ["speak", "speaks", "will speak"], a: "speaks", lesson: "Vế If: 'The teacher' là danh từ số ít nên thêm 's'." },
+            { type: "fill_blank", q: "If we don't save water, there (not/be) ___ enough in the future.", a: "will not be", lesson: "Vế chính phủ định dùng 'will not' hoặc 'won't'." },
+            { type: "multiple_choice", q: "If you eat an apple every day, you ___ healthy.", options: ["will stay", "stay", "stayed"], a: "will stay", lesson: "Dùng WILL để chỉ kết quả của thói quen tốt." },
+            { type: "fill_blank", q: "If the cat (see) ___ a mouse, it will catch it.", a: "sees", lesson: "Vế If: 'The cat' số ít nên động từ 'see' thêm 's'." },
+            { type: "multiple_choice", q: "If you are lazy, you ___ get good marks.", options: ["won't", "will", "don't"], a: "won't", lesson: "Sự việc không xảy ra trong tương lai: dùng WON'T." },
+            { type: "fill_blank", q: "If it (be) ___ sunny tomorrow, we will go swimming.", a: "is", lesson: "To be ở hiện tại đơn (is/am/are) dùng cho vế If." },
+            { type: "multiple_choice", q: "If the robot ___ all the housework, I will be happy.", options: ["does", "do", "doing"], a: "does", lesson: "Vế If: 'The robot' số ít nên dùng 'does'." },
+            { type: "fill_blank", q: "If you (help) ___ me, I will give you a candy.", a: "help", lesson: "Hiện tại đơn cho chủ ngữ 'You' giữ nguyên động từ." },
+            { type: "multiple_choice", q: "If we turn off the lights, we ___ electricity.", options: ["will save", "save", "saving"], a: "will save", lesson: "Chủ đề môi trường: hành động tiết kiệm điện." },
+            { type: "fill_blank", q: "If she (finish) ___ her homework, she will watch TV.", a: "finishes", lesson: "Vế If hiện tại đơn: 'finish' tận cùng là 'sh' nên thêm 'es' với chủ ngữ 'she'." },
+            { type: "multiple_choice", q: "If they stay up late, they ___ sleepy tomorrow.", options: ["will be", "be", "are"], a: "will be", lesson: "Kết quả của việc thức khuya: dùng WILL BE." },
+            { type: "fill_blank", q: "If I (find) ___ your pen, I will tell you.", a: "find", lesson: "Mệnh đề If hiện tại đơn với chủ ngữ 'I'." },
+            { type: "multiple_choice", q: "If people ___ less paper, they will save trees.", options: ["use", "uses", "using"], a: "use", lesson: "Chủ ngữ 'People' số nhiều nên 'use' giữ nguyên." },
+            { type: "fill_blank", q: "If you (be) ___ late, the teacher will be angry.", a: "are", lesson: "Chủ ngữ 'You' đi với to be 'are' ở vế If." },
+            { type: "multiple_choice", q: "If he ___ more fruit, he will be strong.", options: ["eats", "eat", "will eat"], a: "eats", lesson: "Vế If hiện tại đơn: 'He' nên động từ thêm 's'." },
           ],
           medium: [
-            { type: "error_correction", q: "If it will rain, we will cancel the picnic.", a: "rains", lesson: "Mệnh đề If KHÔNG dùng 'will'. Phải dùng Hiện tại đơn: rains.", error_word: "will rain" },
-            { type: "fill_blank", q: "If he (not/study) ___, he will fail the test.", a: "doesn't study", lesson: "Phủ định Hiện tại đơn: If + S + don't/doesn't + V-inf." },
-            { type: "reorder", q: ["will", "If", "late", "be", "you", "you", "get", "up", "early", "not", "."], a: "If you get up late you will not be early .", lesson: "Câu điều kiện loại 1: If + mệnh đề điều kiện (HT đơn), mệnh đề chính (will)." },
-            { type: "error_correction", q: "If she studies hard, she would pass the exam.", a: "will pass", lesson: "Câu điều kiện loại 1 dùng WILL (không phải would). Would dùng cho loại 2.", error_word: "would pass" },
+            // --- NHÓM 1: FILL IN THE BLANK (CHIA ĐỘNG TỪ PHỐI HỢP) ---
+            { type: "fill_blank", q: "If the library (close) ___ early, we will study at home.", a: "closes", lesson: "Vế If hiện tại đơn: 'The library' là số ít nên động từ phải thêm 's'." },
+            { type: "fill_blank", q: "We will save a lot of trees if we (not/waste) ___ paper.", a: "don't waste", lesson: "Phủ định vế If: 'We' đi với 'don't' + động từ nguyên mẫu." },
+            { type: "fill_blank", q: "If the home robot (run) ___ out of battery, it will charge itself.", a: "runs", lesson: "Chủ ngữ số ít 'The home robot' yêu cầu động từ thêm 's' ở vế If." },
+            { type: "fill_blank", q: "If students (not/recycle) ___ bottles, there will be more pollution.", a: "don't recycle", lesson: "Phủ định vế If: 'Students' là số nhiều nên dùng 'don't'." },
+            { type: "fill_blank", q: "The environment (be) ___ better if people plant more trees.", a: "will be", lesson: "Vế kết quả (mệnh đề chính) phải dùng 'will + V-inf'." },
+
+            // --- NHÓM 2: MULTIPLE CHOICE (BẪY NGỮ PHÁP) ---
+            { type: "multiple_choice", q: "If he ___ a reusable bag, he will help the environment.", options: ["uses", "use", "will use"], a: "uses", lesson: "Mệnh đề If hiện tại đơn, chủ ngữ 'He' nên chọn 'uses'." },
+            { type: "multiple_choice", q: "What ___ you do if it rains tomorrow?", options: ["will", "do", "are"], a: "will", lesson: "Câu hỏi vế chính: Wh-word + will + S + V-inf?" },
+            { type: "multiple_choice", q: "If the goldfish ___ enough food, they will die.", options: ["don't have", "doesn't have", "won't have"], a: "don't have", lesson: "Chủ ngữ 'Goldfish' ở đây dùng như số nhiều, đi với 'don't have'." },
+            { type: "multiple_choice", q: "If you ___ solar energy, you will save a lot of money.", options: ["use", "uses", "will use"], a: "use", lesson: "Mệnh đề If không dùng 'will'. 'You' đi với động từ nguyên mẫu." },
+            { type: "multiple_choice", q: "There ___ less soil pollution if we use fewer chemicals.", options: ["will be", "is", "won't be"], a: "will be", lesson: "Vế chính chỉ kết quả có thể xảy ra: sẽ có (will be)." },
+
+            // --- NHÓM 3: REORDER (SẮP XẾP CÂU DÀI) ---
+            { type: "reorder", q: ["if", "we", "die", "will", "The", "water", "pollute", "fish", "."], a: "The fish will die if we pollute water.", lesson: "If đứng giữa câu thì không dùng dấu phẩy ngăn cách." },
+            { type: "reorder", q: ["will", "If", "we", "more", "trees", "plant", ",", "be", "greener", "the", "school", "."], a: "If we plant more trees, the school will be greener.", lesson: "If đứng đầu câu phải có dấu phẩy ngăn cách giữa vế điều kiện và kết quả." },
+            { type: "reorder", q: ["you", "If", "give", "too", "food", "much", ",", "die", "will", "they", "."], a: "If you give too much food, they will die.", lesson: "Cấu trúc cảnh báo: If + Hiện tại đơn, S + will + V-inf." },
+            { type: "reorder", q: ["we", "environment", "the", "help", "will", "less", "if", "plastic", "use", "we", "."], a: "We will help the environment if we use less plastic.", lesson: "Vế chính dùng 'will help', vế If dùng 'use' hiện tại đơn." },
+
+            // --- NHÓM 4: ERROR CORRECTION (GIỮ LẠI CÁC CÂU TINH TÚY) ---
+            { type: "error_correction", q: "If the river isn't dirty, there is more fish.", a: "will be", lesson: "Lỗi vế chính: Kết quả phải dùng 'will + V-inf' để chỉ khả năng xảy ra.", error_word: "is" },
+            { type: "error_correction", q: "If we will waste paper, we won't save trees.", a: "waste", lesson: "Lỗi kinh điển: Mệnh đề If không được dùng 'will'.", error_word: "will waste" },
+            { type: "error_correction", q: "She will happy if her father buys her a robot.", a: "will be happy", lesson: "Lỗi thiếu động từ: Sau 'will' phải có động từ nguyên mẫu (be).", error_word: "will happy" },
+            { type: "error_correction", q: "If you doesn't study, you will fail the exam.", a: "don't study", lesson: "Lỗi hòa hợp chủ vị: 'You' phải đi với 'don't'.", error_word: "doesn't study" }
           ],
           hard: [
-            { type: "reorder", q: ["you", "unless", "be", "will", "You", "on", "time", "hurry", "."], a: "You will be on time unless you hurry .", lesson: "Unless = If ... not. Unless you hurry = If you don't hurry." },
-            { type: "fill_blank", q: "If you ___ (not/tell) me the truth, I won't help you.", a: "don't tell", lesson: "Phủ định mệnh đề If: If + S + don't/doesn't + V-inf." },
-            { type: "error_correction", q: "What will happen if we doesn't recycle?", a: "don't", lesson: "Mệnh đề If dùng Hiện tại đơn. Chủ ngữ 'we' → don't (không dùng doesn't).", error_word: "doesn't" },
+            // --- NHÓM 2: CHIA ĐỘNG TỪ VỚI CHỦ NGỮ GÂY NHIỄU ---
+            { type: "multiple_choice", q: "If anyone ___ me, tell them I'm in the garden.", options: ["calls", "call", "will call"], a: "calls", lesson: "Bẫy chủ ngữ: 'Anyone/Someone' luôn chia động từ số ít (thêm s/es)." },
+            { type: "fill_blank", q: "If the ice in the Antarctic (melt) ___, the sea level will rise.", a: "melts", lesson: "Chủ đề môi trường: 'Ice' (băng) là danh từ không đếm được, chia số ít (melts)." },
+            { type: "multiple_choice", q: "If each student ___ a tree, the school will be greener.", options: ["plants", "plant", "will plant"], a: "plants", lesson: "Chủ ngữ có 'Each' (mỗi) luôn chia động từ số ít (plants)." },
+            { type: "fill_blank", q: "If your brother (not/pass) ___ the exam, what will he do?", a: "doesn't pass", lesson: "Phủ định vế If số ít: dùng 'doesn't' + động từ nguyên mẫu." },
+            // --- BỔ SUNG NHÓM 2: MULTIPLE CHOICE & FILL BLANK (HARD - NO UNLESS) ---
+            { type: "multiple_choice", q: "If the pair of shoes ___ too expensive, I won't buy them.", options: ["is", "are", "will be"], a: "is", lesson: "Chủ ngữ 'A pair of...' (một đôi) được tính là số ít, chia động từ là 'is'." },
+            { type: "fill_blank", q: "What (happen) ___ if nobody turns off the lights?", a: "will happen", lesson: "Câu hỏi vế chính: Wh-word + will + V-inf." },
+            { type: "multiple_choice", q: "If the local news ___ true, everyone will be very worried.", options: ["is", "are", "will be"], a: "is", lesson: "'News' là danh từ không đếm được, luôn chia động từ số ít." },
+            { type: "fill_blank", q: "If the team (win) ___ the match, they will celebrate all night.", a: "wins", lesson: "'The team' (đội bóng) là danh từ tập hợp, thường chia số ít trong ngữ pháp cơ bản." },
+            { type: "multiple_choice", q: "If you don't keep silent, you ___ the baby up.", options: ["will wake", "wake", "wakes"], a: "will wake", lesson: "Vế chính chỉ kết quả tương lai: dùng WILL + V-inf." },
+            { type: "fill_blank", q: "If anyone (have) ___ a question, they will raise their hand.", a: "has", lesson: "'Anyone' là đại từ bất định số ít, 'have' chuyển thành 'has'." },
+            { type: "multiple_choice", q: "If your family ___ to the beach, will you join them?", options: ["goes", "go", "will go"], a: "goes", lesson: "'Your family' tính là một đơn vị số ít ở vế If, chia động từ thêm 'es'." },
+            { type: "fill_blank", q: "Where (you/go) ___ if the weather is beautiful this weekend?", a: "will you go", lesson: "Cấu trúc câu hỏi vế chính: Will + S + V-inf?" },
+            { type: "multiple_choice", q: "If the police ___ the thief, he will go to jail.", options: ["catch", "catches", "will catch"], a: "catch", lesson: "Lưu ý: 'The police' luôn là danh từ số nhiều, động từ 'catch' giữ nguyên." },
+            { type: "fill_blank", q: "If there (be) ___ a power cut, the robots will stop working.", a: "is", lesson: "Vế If hiện tại đơn với cấu trúc 'There is' (số ít vì 'a power cut')." },
+            { type: "multiple_choice", q: "If mathematics ___ too difficult for him, he will ask the teacher.", options: ["is", "are", "will be"], a: "is", lesson: "Các môn học tận cùng là 's' (Maths, Physics...) vẫn chia động từ số ít." },
+            { type: "fill_blank", q: "If your friend (not/come) ___ to the party, will you be sad?", a: "doesn't come", lesson: "Phủ định vế If số ít: dùng 'doesn't' + V-inf." },
+
+            // --- NHÓM 3: SẮP XẾP CÂU PHỨC TẠP (REORDER) ---
+            { type: "reorder", q: ["will", "not", "If", "careful", ",", "the", "he", "is", "break", "he", "vase", "."], a: "If he is not careful, he will break the vase.", lesson: "Vế If phủ định với to be (is not careful), vế chính tương lai đơn." },
+            { type: "reorder", q: ["if", "be", "What", "pollute", "happen", "we", "will", "water", "the", "?"], a: "What will happen if we pollute the water ?", lesson: "Câu hỏi điều kiện: Wh-word + will + happen + if + mệnh đề HTĐ." },
+            { type: "reorder", q: ["the", "If", "is", "river", "dirty", ",", "die", "will", "more", "fish", "."], a: "If the river is dirty, more fish will die.", lesson: "Sắp xếp đúng vị trí dấu phẩy và vế kết quả (will die)." },
+
+            // --- NHÓM 4: BẪY TRỢ ĐỘNG TỪ & PHỐI HỢP THÌ ---
+            { type: "error_correction", q: "What will happen if we doesn't recycle?", a: "don't", lesson: "Mệnh đề If hiện tại đơn: Chủ ngữ 'we' đi với 'don't', không dùng 'doesn't'.", error_word: "doesn't" },
+            { type: "fill_blank", q: "If you ___ (not/tell) me the truth, I won't help you.", a: "don't tell", lesson: "Phủ định vế If: If + S + don't/doesn't + V-inf." },
+            { type: "error_correction", q: "If she doesn't hurry, she is late for the meeting.", a: "will be", lesson: "Lỗi thì vế chính: Phải dùng Tương lai đơn (will be) để chỉ kết quả có thể xảy ra.", error_word: "is" },
+            { type: "multiple_choice", q: "If you ___ the goldfish too much food, they will die.", options: ["give", "gives", "will give"], a: "give", lesson: "Mệnh đề If dùng hiện tại đơn, chủ ngữ 'You' đi với động từ nguyên mẫu." }
           ]
         }
       },
       superlatives: {
         title: "So sánh nhất", icon: "🏆",
-        theory: `<strong>Tính từ ngắn (1-2 âm tiết):</strong> the + adj + est. VD: tall → the tallest, big → the biggest.<br><strong>Tính từ dài (3+ âm tiết):</strong> the most + adj. VD: beautiful → the most beautiful.<br><strong>Bất quy tắc:</strong> good → the best | bad → the worst | far → the farthest.`,
+        theory: `<strong>1. ĐỊNH NGHĨA & CÁCH DÙNG (DEFINITION & USAGE):</strong><br>
+        Dùng để so sánh từ 3 đối tượng trở lên nhằm chỉ ra đối tượng nổi bật nhất.<br>
+        • Cấu trúc chung: <strong>the + adj + -est</strong> hoặc <strong>the + most + adj</strong>.<br>
+        • Ví dụ: Tom is the tallest in his class. (Tom cao nhất trong lớp).<br>
+        • Ví dụ: Baikal is the largest lake in the world. (Baikal là hồ lớn nhất thế giới).<br><br>
+
+        <strong>2. TÍNH TỪ NGẮN (SHORT ADJECTIVES):</strong><br>
+        • Quy tắc: <strong>the + adj + est</strong>.<br>
+        • Tận cùng là <b>'e'</b>: Chỉ thêm <b>-st</b> (large → the largest: lớn nhất).<br>
+        • Tận cùng là <b>'y'</b>: Đổi thành <b>-iest</b> (heavy → the heaviest: nặng nhất).<br>
+        • Quy tắc <b>CVC</b> (1 nguyên âm kẹp giữa 2 phụ âm): Gấp đôi phụ âm cuối rồi thêm -est (big → the biggest: to nhất).<br><br>
+
+        <strong>3. TÍNH TỪ DÀI (LONG ADJECTIVES):</strong><br>
+        • Quy tắc: <strong>the + most + adj</strong>.<br>
+        • Ví dụ: Ha Long Bay is one of the most beautiful natural wonders. (Vịnh Hạ Long là một trong những kỳ quan thiên nhiên đẹp nhất).<br>
+        • Lưu ý: Tính từ dài giữ nguyên mẫu, không thêm đuôi -est.<br><br>
+
+        <strong>4. BẤT QUY TẮC & CỤM TỪ ĐI KÈM (SPECIAL CASES):</strong><br>
+        • good → <strong>the best</strong> (tốt nhất) | bad → <strong>the worst</strong> (tệ nhất) | far → <strong>the farthest</strong> (xa nhất).<br>
+        • <strong>in</strong> + địa điểm/nhóm: in the world (trên thế giới), in my class (trong lớp tôi).<br>
+        • <strong>of</strong> + danh từ số nhiều: of all the girls (trong số tất cả các cô gái).<br>
+        • <strong>One of the + so sánh nhất</strong>: Một trong những... (VD: One of the best - Một trong những cái tốt nhất).`,
         levels: {
           easy: [
             { type: "multiple_choice", q: "Mount Everest is ___ mountain in the world.", options: ["the highest", "higher", "the most high"], a: "the highest", lesson: "So sánh nhất tính từ ngắn (high): the + adj + est = the highest." },
@@ -1884,9 +2121,20 @@
       return '';
     }
     function chkAns(user, correct) {
-      const u = user.toLowerCase().trim().replace(/\s+/g, ' ');
-      const c = correct.toLowerCase().trim().replace(/\s+/g, ' ');
-      if (c.includes('/')) return c.split('/').some(a => u === a.trim().toLowerCase());
+      // 1. Chuẩn hóa: Chữ thường, xóa khoảng trắng đầu cuối, biến nhiều dấu cách thành 1
+      let u = user.toLowerCase().trim().replace(/\s+/g, ' ');
+      let c = correct.toLowerCase().trim().replace(/\s+/g, ' ');
+
+      // 2. Xử lý dấu câu: Xóa tất cả khoảng trắng đứng TRƯỚC dấu . , ? !
+      // Việc này biến "it is sunny ?" thành "it is sunny?" để khớp với đáp án gốc
+      u = u.replace(/\s+(?=[.,?!])/g, "");
+      c = c.replace(/\s+(?=[.,?!])/g, "");
+
+      // 3. So sánh (có hỗ trợ nhiều đáp án cách nhau bằng dấu '/')
+      if (c.includes('/')) {
+        return c.split('/').some(a => u === a.trim().toLowerCase().replace(/\s+(?=[.,?!])/g, ""));
+      }
+
       return u === c;
     }
 
