@@ -1241,7 +1241,12 @@
       <span class="feature-chip">⭐ 3 Cấp độ</span>
       <span class="feature-chip">📘 Giải thích chi tiết</span>
     </div>
-    <button class="btn-start" onclick="showPage('topics')">Khám Phá →</button>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation: slideUp .5s ease .6s both;">
+      <button class="btn-start" onclick="showPage('topics')">Khám Phá →</button>
+      <button class="btn-start"
+        style="background:linear-gradient(135deg,#e07b5a 0%,#c05a3a 100%);box-shadow:0 8px 28px rgba(224,123,90,.38);"
+        onclick="showExamSelect()">🎓 Thi →</button>
+    </div>
   </div>
 
   <!-- ══════════ TOPICS ══════════ -->
@@ -1335,6 +1340,54 @@
         <button class="btn-nxt" id="btn-next" onclick="nextQuestion()">Tiếp theo →</button>
       </div>
       <div id="feedback-box"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ EXAM SELECT ══════════ -->
+  <div id="page-exam-select" class="page">
+    <div class="inner-wrap" style="max-width:680px;">
+      <div class="page-nav">
+        <button class="btn-back" onclick="showPage('landing')">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Trang chủ
+        </button>
+      </div>
+      <div class="glass" style="border-radius:var(--radius);padding:2rem 2rem 2.2rem;">
+        <div style="font-size:2rem;margin-bottom:.3rem;">🎓</div>
+        <div class="section-title" style="font-size:1.5rem;margin-bottom:.25rem;">Bài <span>Kiểm Tra</span> Tổng Hợp
+        </div>
+        <div class="section-sub" style="margin-bottom:1.6rem;">Chọn điểm ngữ pháp muốn thi, độ khó và số câu</div>
+
+        <div class="setup-label">Chọn điểm ngữ pháp <span
+            style="font-weight:400;text-transform:none;font-size:.75rem;color:var(--c-accent);">(có thể chọn
+            nhiều)</span></div>
+        <div id="exam-topic-grid"
+          style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;margin-bottom:1.6rem;">
+        </div>
+
+        <div class="setup-label">Độ khó</div>
+        <div class="choice-row">
+          <button class="choice-btn" id="ebtn-easy" onclick="examSelectDiff('easy')"><span>🟢</span>Dễ</button>
+          <button class="choice-btn" id="ebtn-medium" onclick="examSelectDiff('medium')"><span>🟡</span>Trung
+            bình</button>
+          <button class="choice-btn" id="ebtn-hard" onclick="examSelectDiff('hard')"><span>🔴</span>Khó</button>
+          <button class="choice-btn" id="ebtn-all" onclick="examSelectDiff('all')"><span>🌈</span>Tất cả</button>
+        </div>
+
+        <div class="setup-label">Số câu hỏi</div>
+        <div class="choice-row">
+          <button class="choice-btn" id="ebtn-5" onclick="examSelectCount(5)">5</button>
+          <button class="choice-btn" id="ebtn-10" onclick="examSelectCount(10)">10</button>
+          <button class="choice-btn" id="ebtn-15" onclick="examSelectCount(15)">15</button>
+          <button class="choice-btn" id="ebtn-20" onclick="examSelectCount(20)">20</button>
+          <button class="choice-btn" id="ebtn-30" onclick="examSelectCount(30)">30</button>
+        </div>
+
+        <button class="btn-go" onclick="startExam()"
+          style="background:linear-gradient(135deg,#e07b5a,#c05a3a);box-shadow:0 6px 22px rgba(224,123,90,.34);">Bắt đầu
+          thi! 🎓</button>
+      </div>
     </div>
   </div>
 
@@ -2286,6 +2339,7 @@
       if (!pool || !pool.length) { alert('Chủ đề này chưa có câu hỏi ở độ khó này!'); return; }
       questions = shuffle([...pool]).slice(0, Math.min(selectedCount, pool.length));
       currentQ = 0; score = 0; answers = [];
+      isExamMode = false;
       showPage('exercise');
       renderQuestion();
     }
@@ -2293,36 +2347,59 @@
     function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
 
     function renderQuestion() {
-      const d = DATABASE[currentTopic], q = questions[currentQ], total = questions.length;
-      document.getElementById('ex-topic-lbl').textContent = `${d.icon} ${d.title}`;
+      const q = questions[currentQ], total = questions.length;
+
+      // KIỂM TRA CHẾ ĐỘ THI ĐỂ HIỂN THỊ HEADER
+      if (isExamMode) {
+        // Nếu đang thi, lấy Icon từ chính câu hỏi đó (q._topic đã được gán lúc startExam)
+        const topicData = DATABASE[q._topic];
+        document.getElementById('ex-topic-lbl').textContent = `${topicData.icon} ${topicData.title}`;
+      } else {
+        // Nếu đang học bình thường
+        const d = DATABASE[currentTopic];
+        document.getElementById('ex-topic-lbl').textContent = `${d.icon} ${d.title}`;
+      }
+
       document.getElementById('ex-prog-lbl').textContent = `Câu ${currentQ + 1} / ${total}`;
       document.getElementById('prog-fill').style.width = ((currentQ / total) * 100) + '%';
       document.getElementById('btn-submit').style.display = 'inline-flex';
       document.getElementById('btn-next').style.display = 'none';
       document.getElementById('feedback-box').innerHTML = '';
-      selectedOpt = null; reorderPlaced = []; reorderWords = [];
 
-      let html = `<span class="q-type-tag">${TYPE_LBL[q.type]}</span><span class="diff-tag">${DIFF_LBL[selectedDiff]}</span>`;
+      selectedOpt = null;
+      reorderPlaced = [];
+      reorderWords = [];
 
+      // Xác định nhãn độ khó (nếu chọn 'all' thì hiển thị theo từng câu)
+      const displayDiff = examSelectedDiff === 'all' ? (q.level || 'mixed') : examSelectedDiff;
+
+      let html = `<span class="q-type-tag">${TYPE_LBL[q.type]}</span>`;
+
+      // RENDER THEO TỪNG LOẠI CÂU HỎI
       if (q.type === 'multiple_choice') {
         html += `<div class="q-text">${q.q}</div><div class="mc-options">
     ${q.options.map((opt, i) => `<button class="opt-btn" onclick="selOpt(this,'${opt.replace(/'/g, "\\'")}')">
       <span class="opt-letter">${String.fromCharCode(65 + i)}</span>${opt}</button>`).join('')}</div>`;
-      } else if (q.type === 'fill_blank') {
+      }
+      else if (q.type === 'fill_blank') {
         html += `<div class="q-text">${q.q}</div><input type="text" class="fill-input" id="fill-inp" placeholder="Nhập đáp án của bạn..." autocomplete="off"/>`;
-      } else if (q.type === 'error_correction') {
+      }
+      else if (q.type === 'error_correction') {
         const raw = Array.isArray(q.q) ? q.q.join(' ') : q.q;
+        // Highlight từ sai nếu có cấu trúc error_word
         const hi = q.error_word ? raw.replace(new RegExp(`(${q.error_word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<span class="err-word">$1</span>') : raw;
         html += `<div class="q-text" style="font-size:.88rem;color:var(--c-muted);margin-bottom:.4rem;">🔍 Tìm và sửa lỗi sai:</div>
     <div class="ec-sentence">${hi}</div>
     <input type="text" class="fill-input" id="err-inp" placeholder="Nhập dạng đúng của từ sai..." autocomplete="off"/>`;
-      } else if (q.type === 'reorder') {
+      }
+      else if (q.type === 'reorder') {
         reorderWords = shuffle([...q.q]);
         html += `<div class="q-text" style="font-size:.88rem;color:var(--c-muted);margin-bottom:.4rem;">📌 Sắp xếp thành câu đúng:</div>
-    <div class="reorder-hint">Click từng từ để xây dựng câu. Click từ đã đặt để xóa.</div>
+    <div class="reorder-hint">Click từng từ để xây dựng câu.</div>
     <div class="drop-zone" id="dz"></div>
     <div class="word-bank">${reorderWords.map((w, i) => `<span class="word-chip" id="wc-${i}" onclick="placeW('${w.replace(/'/g, "\\'")}',${i})">${w}</span>`).join('')}</div>`;
       }
+
       document.getElementById('q-container').innerHTML = html;
     }
 
@@ -2417,14 +2494,26 @@
       const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪';
       const msg = pct >= 80 ? 'Xuất sắc! Con học rất giỏi!' : pct >= 50 ? 'Khá tốt! Tiếp tục cố gắng nhé!' : 'Cần ôn tập thêm! Đừng nản lòng!';
       const wrong = total - score, deg = pct * 3.6, circ = 2 * Math.PI * 48;
+      const diffLabel = examSelectedDiff === 'all' ? '🌈 Tất cả độ khó' : (DIFF_LBL[examSelectedDiff] || DIFF_LBL[selectedDiff] || '');
+      const resultSubLabel = isExamMode
+        ? `${[...examSelectedTopics].map(k => DATABASE[k].icon + ' ' + DATABASE[k].title).join(' · ')} · ${diffLabel}`
+        : `${DATABASE[currentTopic].icon} ${DATABASE[currentTopic].title} · ${DIFF_LBL[selectedDiff]}`;
+      const againBtn = isExamMode
+        ? `<button class="btn-again" onclick="showExamSelect()">🔄 Thi lại</button>`
+        : `<button class="btn-again" onclick="startExercise()">🔄 Luyện lại</button>`;
+      const otherBtn = isExamMode
+        ? `<button class="btn-other" onclick="showPage('landing')">🏠 Trang chủ</button>`
+        : `<button class="btn-other" onclick="showPage('topics')">📖 Chủ đề khác</button>`;
       let det = '';
       answers.forEach((ans, i) => {
         const { q, userAns, correct } = ans;
         const qt = Array.isArray(q.q) ? q.q.join(' ') : q.q;
+        const topicInfo = isExamMode && q._topic ? `<span style="font-size:.62rem;color:var(--c-accent);font-weight:600;background:rgba(99,82,180,.1);padding:.15rem .5rem;border-radius:50px;margin-left:.2rem;">${DATABASE[q._topic].icon} ${DATABASE[q._topic].title}</span>` : '';
         det += `<div class="detail-item ${correct ? 'ci' : 'wi'}">
       <div class="di-head">
         <span class="di-badge ${correct ? 'c' : 'w'}">${correct ? 'Đúng' : 'Sai'}</span>
         <span class="di-type">${TYPE_LBL[q.type]}</span>
+        ${topicInfo}
         <span class="di-num">Câu ${i + 1}</span>
       </div>
       <div class="di-q">${qt}</div>
@@ -2436,8 +2525,8 @@
       document.getElementById('result-content').innerHTML = `
     <div class="result-hero glass">
       <div style="font-size:2.5rem;margin-bottom:.5rem;">${emoji}</div>
-      <div class="theory-label" style="margin-bottom:.3rem;">KẾT QUẢ BÀI LUYỆN TẬP</div>
-      <div style="font-size:.82rem;color:var(--c-muted);margin-bottom:1.4rem;">${DATABASE[currentTopic].icon} ${DATABASE[currentTopic].title} · ${DIFF_LBL[selectedDiff]}</div>
+      <div class="theory-label" style="margin-bottom:.3rem;">${isExamMode ? 'KẾT QUẢ BÀI KIỂM TRA' : 'KẾT QUẢ BÀI LUYỆN TẬP'}</div>
+      <div style="font-size:.82rem;color:var(--c-muted);margin-bottom:1.4rem;">${resultSubLabel}</div>
       <div class="score-ring">
         <svg width="120" height="120" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,0,0,.07)" stroke-width="10"/>
@@ -2450,15 +2539,15 @@
         </div>
       </div>
       <div class="result-msg">${msg}</div>
-      <div class="result-sub">${DATABASE[currentTopic].title} · ${DIFF_LBL[selectedDiff]}</div>
+      <div class="result-sub">${resultSubLabel}</div>
       <div class="stats-row">
         <div class="stat-box"><div class="stat-num" style="color:var(--c-success);">${score}</div><div class="stat-lbl">Câu đúng</div></div>
         <div class="stat-box"><div class="stat-num" style="color:var(--c-danger);">${wrong}</div><div class="stat-lbl">Câu sai</div></div>
         <div class="stat-box"><div class="stat-num" style="color:var(--c-accent);">${total}</div><div class="stat-lbl">Tổng câu</div></div>
       </div>
       <div class="result-btns">
-        <button class="btn-again" onclick="startExercise()">🔄 Luyện lại</button>
-        <button class="btn-other" onclick="showPage('topics')">📖 Chủ đề khác</button>
+        ${againBtn}
+        ${otherBtn}
       </div>
     </div>
     ${wrong > 0 ? `<div class="detail-section glass"><div class="det-title">📋 Chi tiết bài làm</div>${det}</div>` : `
@@ -2477,6 +2566,110 @@
         </div>`).join('')}
     </div>`;
       showPage('result');
+    }
+
+    /* ═══════════════════════════════════════════════
+       EXAM (THI TỔNG HỢP)
+    ═══════════════════════════════════════════════ */
+    let examSelectedTopics = new Set();
+    let examSelectedDiff = null;
+    let examSelectedCount = 10;
+    let isExamMode = false;
+
+    function showExamSelect() {
+      examSelectedTopics = new Set();
+      examSelectedDiff = null;
+      examSelectedCount = 10;
+
+      const grid = document.getElementById('exam-topic-grid');
+      grid.innerHTML = '';
+
+      // Duyệt qua từng key trong DATABASE (tenses, conditionals, superlatives...)
+      for (const key in DATABASE) {
+        const topic = DATABASE[key];
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.id = 'etopic-' + key;
+        btn.style.cssText = 'flex:none;width:100%;justify-content:flex-start;gap:.5rem;padding:.6rem .85rem;';
+
+        // Hiển thị Icon và Title từ Database của thầy
+        btn.innerHTML = `<span>${topic.icon}</span><span style="text-align:left;font-size:.85rem;">${topic.title}</span>`;
+
+        btn.onclick = () => examToggleTopic(key, btn);
+        grid.appendChild(btn);
+      }
+
+      // Reset trạng thái các nút độ khó và số lượng (nếu có UI này)
+      showPage('exam-select');
+    }
+
+    function examToggleTopic(key, btn) {
+      if (examSelectedTopics.has(key)) {
+        examSelectedTopics.delete(key);
+        btn.classList.remove('sel');
+      } else {
+        examSelectedTopics.add(key);
+        btn.classList.add('sel');
+      }
+    }
+
+    function examSelectDiff(d) {
+      examSelectedDiff = d;
+      ['easy', 'medium', 'hard', 'all'].forEach(x => document.getElementById('ebtn-' + x)?.classList.toggle('sel', x === d));
+    }
+
+    function examSelectCount(n) {
+      examSelectedCount = n;
+      [5, 10, 15, 20, 30].forEach(x => document.getElementById('ebtn-' + x)?.classList.toggle('sel', x === n));
+    }
+
+    function startExam() {
+      if (examSelectedTopics.size === 0) {
+        alert('Vui lòng chọn ít nhất 1 điểm ngữ pháp!');
+        return;
+      }
+      if (!examSelectedDiff) {
+        alert('Vui lòng chọn độ khó!');
+        return;
+      }
+
+      let pool = [];
+
+      // Duyệt qua các key mà học sinh đã chọn (ví dụ: 'tenses', 'conditionals')
+      examSelectedTopics.forEach(key => {
+        const topicData = DATABASE[key];
+        if (!topicData) return;
+
+        if (examSelectedDiff === 'all') {
+          // Lấy tất cả câu hỏi từ mọi level (easy, medium, hard)
+          Object.values(topicData.levels).forEach(lvlQs => {
+            lvlQs.forEach(q => pool.push({ ...q, _topic: key }));
+          });
+        } else {
+          // Chỉ lấy câu hỏi ở độ khó đã chọn
+          const lvlQs = topicData.levels[examSelectedDiff] || [];
+          lvlQs.forEach(q => pool.push({ ...q, _topic: key }));
+        }
+      });
+
+      if (!pool.length) {
+        alert('Không có câu hỏi nào ở độ khó này cho các chủ đề đã chọn!');
+        return;
+      }
+
+      // Trộn câu hỏi và cắt lấy số lượng yêu cầu
+      questions = shuffle([...pool]).slice(0, Math.min(examSelectedCount, pool.length));
+      currentQ = 0;
+      score = 0;
+      answers = [];
+      isExamMode = true;
+
+      // Cập nhật nhãn hiển thị bài thi
+      const topicIcons = [...examSelectedTopics].map(k => DATABASE[k].icon).join(' ');
+      document.getElementById('ex-topic-lbl').textContent = `${topicIcons} Bài Kiểm Tra Tổng Hợp`;
+
+      showPage('exercise');
+      renderQuestion();
     }
 
     /* ── INIT ── */
