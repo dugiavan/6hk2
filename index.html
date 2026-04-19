@@ -3070,50 +3070,59 @@
        LỊCH SỬ LÀM BÀI (LocalStorage)
     ═══════════════════════════════════════════════ */
 
-    const LS_KEY = 'thihocky_history'; // Key dùng để lưu vào localStorage
+    /* ═══════════════════════════════════════════════
+      LỊCH SỬ LÀM BÀI - PHIÊN BẢN NÂNG CẤP
+   ═══════════════════════════════════════════════ */
+    const LS_KEY = 'english_test_history_v2';
 
-    // Lưu một lần làm bài vào LocalStorage
-    function saveToLocalHistory(studentName, lessonName, score, total) {
-      // Lấy dữ liệu cũ (nếu có)
+    // Lưu bài làm đầy đủ
+    function saveToLocalHistory() {
+      const studentName = getStudentName();
+      if (!studentName) return;
+
       let history = [];
       try {
         history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
       } catch (e) { history = []; }
 
-      // Tạo bản tóm tắt mới
+      const lessonName = isExamMode
+        ? `Kiểm tra tổng hợp (${[...examSelectedTopics].map(k => DATABASE[k].title).join(', ')})`
+        : `${DATABASE[currentTopic]?.title || 'Luyện tập'} - ${DIFF_LBL[selectedDiff] || ''}`;
+
       const record = {
-        date: new Date().toLocaleString('vi-VN'),  // Ngày giờ định dạng Việt
+        id: 'hist_' + Date.now(),
+        date: new Date().toLocaleString('vi-VN'),
+        timestamp: Date.now(),
         studentName: studentName,
         lessonName: lessonName,
         score: score,
-        total: total,
-        pct: Math.round((score / total) * 100)
+        total: questions.length,
+        pct: Math.round((score / questions.length) * 100),
+        isExamMode: isExamMode,
+        // Lưu đầy đủ chi tiết để xem lại sau
+        answers: answers.map(ans => ({
+          q: {
+            type: ans.q.type,
+            q: ans.q.q,
+            a: ans.q.a,
+            lesson: ans.q.lesson || '',
+            options: ans.q.options || null,
+            error_word: ans.q.error_word || null
+          },
+          userAns: ans.userAns || '',
+          correct: ans.correct
+        }))
       };
 
-      // Chèn vào đầu mảng (lần mới nhất hiển thị đầu tiên)
-      history.unshift(record);
+      history.unshift(record); // Thêm bài mới nhất lên đầu
 
-      // Chỉ giữ tối đa 30 lần gần nhất để tránh đầy bộ nhớ
-      if (history.length > 30) history = history.slice(0, 30);
+      // Giữ tối đa 50 bài
+      if (history.length > 50) history = history.slice(0, 50);
 
       localStorage.setItem(LS_KEY, JSON.stringify(history));
     }
 
-    // Mở modal hiển thị lịch sử
-    function openHistoryModal() {
-      renderHistoryList();
-      document.getElementById('history-modal').classList.add('open');
-    }
-
-    // Đóng modal lịch sử
-    function closeHistoryModal(event) {
-      // Nếu click vào overlay (bên ngoài modal box) thì đóng
-      if (!event || event.target === document.getElementById('history-modal')) {
-        document.getElementById('history-modal').classList.remove('open');
-      }
-    }
-
-    // Render danh sách lịch sử vào modal
+    // Render danh sách lịch sử
     function renderHistoryList() {
       const container = document.getElementById('history-list');
       let history = [];
@@ -3122,35 +3131,98 @@
       } catch (e) { history = []; }
 
       if (history.length === 0) {
-        container.innerHTML = `<div class="history-empty">
-          <div style="font-size:2rem;margin-bottom:.5rem;">📭</div>
-          <div>Chưa có lần làm bài nào được lưu.</div>
-          <div style="margin-top:.3rem;font-size:.75rem;">Sau khi nộp bài thành công, lịch sử sẽ hiện ở đây.</div>
-        </div>`;
+        container.innerHTML = `
+            <div class="history-empty">
+                <div style="font-size:2.5rem;margin-bottom:1rem;">📭</div>
+                <div>Chưa có bài làm nào</div>
+                <div style="margin-top:0.5rem;font-size:0.85rem;color:#888;">Hoàn thành và nộp bài để lịch sử được lưu tự động</div>
+            </div>`;
         return;
       }
 
-      container.innerHTML = history.map(r => {
-        // Chọn màu theo điểm số
+      container.innerHTML = history.map((r, index) => {
         const col = r.pct >= 80 ? '#16a34a' : r.pct >= 50 ? '#d97706' : '#dc2626';
         const emoji = r.pct >= 80 ? '🏆' : r.pct >= 50 ? '👍' : '💪';
-        return `<div class="history-item">
-          <div class="history-icon">${emoji}</div>
-          <div class="history-info">
-            <div class="history-name">👤 ${r.studentName}</div>
-            <div class="history-lesson">📚 ${r.lessonName}</div>
-            <div class="history-date">🕐 ${r.date}</div>
-          </div>
-          <div class="history-score" style="color:${col};">${r.score}/${r.total}<br><span style="font-size:.72rem;font-weight:600;">${r.pct}%</span></div>
+
+        return `
+        <div class="history-item" onclick="viewHistoryDetail(${index})" style="cursor:pointer;">
+            <div class="history-icon">${emoji}</div>
+            <div class="history-info">
+                <div class="history-name">👤 ${r.studentName}</div>
+                <div class="history-lesson">📚 ${r.lessonName}</div>
+                <div class="history-date">🕐 ${r.date}</div>
+            </div>
+            <div class="history-score" style="color:${col};">
+                ${r.score}/${r.total}<br>
+                <span style="font-size:0.75rem;">${r.pct}%</span>
+            </div>
         </div>`;
       }).join('');
     }
 
-    // Xóa toàn bộ lịch sử
+    // Xem chi tiết một bài trong lịch sử
+    function viewHistoryDetail(index) {
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
+      } catch (e) { return; }
+
+      const record = history[index];
+      if (!record) return;
+
+      // Tạo nội dung chi tiết giống trang Result
+      let det = '';
+      record.answers.forEach((ans, i) => {
+        const qt = Array.isArray(ans.q.q) ? ans.q.q.join(' ') : ans.q.q;
+        det += `
+        <div class="detail-item ${ans.correct ? 'ci' : 'wi'}">
+            <div class="di-head">
+                <span class="di-badge ${ans.correct ? 'c' : 'w'}">${ans.correct ? 'Đúng' : 'Sai'}</span>
+                <span class="di-type">${TYPE_LBL[ans.q.type] || ans.q.type}</span>
+                <span class="di-num">Câu ${i + 1}</span>
+            </div>
+            <div class="di-q">${qt}</div>
+            <div class="di-ans">Bạn trả lời: <strong style="color:${ans.correct ? 'var(--c-success)' : 'var(--c-danger)'};">${ans.userAns || '(Bỏ trống)'}</strong></div>
+            ${!ans.correct ? `
+            <div class="di-ans">Đáp án đúng: <strong style="color:var(--c-success);">${ans.q.a}</strong></div>
+            ${ans.q.lesson ? `<div class="lesson-box"><span class="li">📚</span><div class="lb"><span class="ll">Bài học: </span>${ans.q.lesson}</div></div>` : ''}
+            ` : ''}
+        </div>`;
+      });
+
+      const html = `
+        <div style="padding:1.2rem;">
+            <div style="margin-bottom:1.5rem;">
+                <button onclick="closeHistoryModal();openHistoryModal()" style="font-size:0.9rem;padding:0.5rem 1rem;">← Quay lại danh sách</button>
+            </div>
+            <h2 style="margin:0 0 0.5rem 0;">📋 Chi tiết bài làm</h2>
+            <p><strong>${record.studentName}</strong> • ${record.lessonName}</p>
+            <p style="color:#666;font-size:0.9rem;">${record.date} • ${record.score}/${record.total} (${record.pct}%)</p>
+            
+            <div class="detail-section glass" style="margin-top:1.5rem;">
+                ${det}
+            </div>
+        </div>`;
+
+      document.getElementById('history-list').innerHTML = html;
+    }
+
+    // Các hàm modal giữ nguyên hoặc chỉnh nhẹ
+    function openHistoryModal() {
+      renderHistoryList();
+      document.getElementById('history-modal').classList.add('open');
+    }
+
+    function closeHistoryModal(event) {
+      if (!event || event.target.id === 'history-modal') {
+        document.getElementById('history-modal').classList.remove('open');
+      }
+    }
+
     function clearHistory() {
-      if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử làm bài không?')) {
+      if (confirm('Xóa toàn bộ lịch sử? (Không thể khôi phục)')) {
         localStorage.removeItem(LS_KEY);
-        renderHistoryList(); // Render lại (sẽ hiện trạng thái "trống")
+        renderHistoryList();
       }
     }
 
