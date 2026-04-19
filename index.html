@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -1155,6 +1156,316 @@
       color: var(--c-text);
     }
 
+    /* ══ STUDENT NAME INPUT (trên trang landing) ══ */
+    .student-name-box {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 380px;
+      animation: slideUp .5s ease .45s both;
+    }
+
+    .student-name-label {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      margin-bottom: .55rem;
+      display: block;
+      text-align: left;
+    }
+
+    .student-name-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .student-name-wrap .name-icon {
+      position: absolute;
+      left: 1rem;
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    .student-name-input {
+      width: 100%;
+      padding: .85rem 1rem .85rem 2.8rem;
+      border-radius: 50px;
+      border: 1.5px solid rgba(99, 82, 180, .25);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--c-text);
+      outline: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 18px rgba(99, 82, 180, .10);
+    }
+
+    .student-name-input:focus {
+      border-color: var(--c-accent);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 24px rgba(99, 82, 180, .22);
+    }
+
+    .student-name-input::placeholder {
+      color: #bbb;
+      font-weight: 400;
+    }
+
+    /* Nút Xem lịch sử */
+    .btn-history {
+      margin-top: .85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1.5px solid rgba(99, 82, 180, .22);
+      border-radius: 50px;
+      padding: .55rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--c-accent);
+      cursor: pointer;
+      transition: var(--transition);
+      animation: slideUp .5s ease .65s both;
+    }
+
+    .btn-history:hover {
+      background: rgba(99, 82, 180, .09);
+      border-color: var(--c-accent);
+      transform: translateY(-1px);
+    }
+
+    /* ══ MODAL LỊCH SỬ ══ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(30, 22, 64, 0.45);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--radius);
+      padding: 2rem 1.8rem;
+      max-width: 520px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 72px rgba(99, 82, 180, .22);
+      border: 1px solid rgba(255, 255, 255, .9);
+      position: relative;
+      animation: scaleIn .3s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(99, 82, 180, .10);
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-muted);
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      background: rgba(99, 82, 180, .18);
+      color: var(--c-accent);
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--c-text);
+      margin-bottom: 1.2rem;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      padding: .9rem 1rem;
+      border-radius: var(--radius-sm);
+      background: rgba(99, 82, 180, .06);
+      border: 1px solid rgba(99, 82, 180, .12);
+      margin-bottom: .65rem;
+      transition: var(--transition);
+    }
+
+    .history-item:hover {
+      background: rgba(99, 82, 180, .10);
+    }
+
+    .history-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .history-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--c-accent);
+      margin-bottom: .15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-lesson {
+      font-size: .78rem;
+      color: var(--c-text);
+      font-weight: 500;
+      margin-bottom: .15rem;
+    }
+
+    .history-date {
+      font-size: .7rem;
+      color: var(--c-muted);
+    }
+
+    .history-score {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .history-empty {
+      text-align: center;
+      padding: 2rem;
+      color: var(--c-muted);
+      font-size: .88rem;
+    }
+
+    .btn-clear-history {
+      width: 100%;
+      margin-top: 1rem;
+      padding: .7rem;
+      border: 1.5px solid rgba(220, 38, 38, .25);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--c-danger);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-clear-history:hover {
+      background: rgba(220, 38, 38, .07);
+    }
+
+    /* ══ SUBMIT TO SHEETS (trong trang result) ══ */
+    .sheets-box {
+      border-radius: var(--radius);
+      padding: 1.6rem 1.8rem;
+      background: linear-gradient(135deg, rgba(99, 82, 180, .08), rgba(224, 123, 90, .06));
+      border: 1.5px solid rgba(99, 82, 180, .18);
+      margin-bottom: 1rem;
+    }
+
+    .sheets-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--c-text);
+      margin-bottom: .35rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .sheets-sub {
+      font-size: .82rem;
+      color: var(--c-muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .btn-submit-sheets {
+      width: 100%;
+      padding: .9rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, .30);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .btn-submit-sheets:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(22, 163, 74, .38);
+    }
+
+    .btn-submit-sheets:disabled {
+      opacity: .7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .sheets-status {
+      margin-top: .75rem;
+      padding: .7rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: .83rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .sheets-status.loading {
+      display: block;
+      background: rgba(99, 82, 180, .10);
+      color: var(--c-accent);
+    }
+
+    .sheets-status.success {
+      display: block;
+      background: rgba(22, 163, 74, .10);
+      color: var(--c-success);
+    }
+
+    .sheets-status.error {
+      display: block;
+      background: rgba(220, 38, 38, .08);
+      color: var(--c-danger);
+    }
+
     /* ── Learn page ── */
     .learn-card {
       border-radius: var(--radius);
@@ -1229,6 +1540,18 @@
     <span>✦</span>
   </div>
 
+  <!-- ══════════ MODAL LỊCH SỬ ══════════ -->
+  <div class="modal-overlay" id="history-modal" onclick="closeHistoryModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeHistoryModal()">✕</button>
+      <div class="modal-title">📋 Lịch sử làm bài</div>
+      <div id="history-list">
+        <!-- Được render bằng JS -->
+      </div>
+      <button class="btn-clear-history" onclick="clearHistory()">🗑️ Xóa toàn bộ lịch sử</button>
+    </div>
+  </div>
+
   <!-- ══════════ LANDING ══════════ -->
   <div id="page-landing" class="page active">
     <div class="landing-badge">📚 Tiếng Anh Lớp 6 · Global Success HK2</div>
@@ -1241,12 +1564,29 @@
       <span class="feature-chip">⭐ 3 Cấp độ</span>
       <span class="feature-chip">📘 Giải thích chi tiết</span>
     </div>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation: slideUp .5s ease .6s both;">
-      <button class="btn-start" onclick="showPage('topics')">Khám Phá →</button>
+
+    <!-- ── Ô nhập tên học sinh ── -->
+    <div class="student-name-box">
+      <label class="student-name-label" for="student-name-input">👤 Tên học sinh</label>
+      <div class="student-name-wrap">
+        <span class="name-icon">✏️</span>
+        <input type="text" id="student-name-input" class="student-name-input" placeholder="Nhập tên của bạn vào đây..."
+          maxlength="50" autocomplete="off" />
+      </div>
+    </div>
+
+    <div
+      style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation: slideUp .5s ease .6s both;margin-top:1.8rem;">
+      <button class="btn-start" onclick="goToTopics()">Khám Phá →</button>
       <button class="btn-start"
         style="background:linear-gradient(135deg,#e07b5a 0%,#c05a3a 100%);box-shadow:0 8px 28px rgba(224,123,90,.38);"
-        onclick="showExamSelect()">🎓 Thi →</button>
+        onclick="goToExam()">🎓 Thi →</button>
     </div>
+
+    <!-- Nút xem lịch sử -->
+    <button class="btn-history" onclick="openHistoryModal()">
+      📋 Xem lịch sử làm bài
+    </button>
   </div>
 
   <!-- ══════════ TOPICS ══════════ -->
@@ -1394,6 +1734,16 @@
   <!-- ══════════ RESULT ══════════ -->
   <div id="page-result" class="page">
     <div class="inner-wrap narrow">
+      <!-- Khung nộp bài lên Google Sheets -->
+      <div class="sheets-box" id="sheets-submit-box">
+        <div class="sheets-title">📊 Nộp bài cho thầy</div>
+        <div class="sheets-sub" id="sheets-student-label">Gửi kết quả của bạn lên Google Sheets để thầy theo dõi tiến
+          độ.</div>
+        <button class="btn-submit-sheets" id="btn-send-sheets" onclick="sendDataToSheets()">
+          📤 Nộp bài lên Google Sheets
+        </button>
+        <div class="sheets-status" id="sheets-status"></div>
+      </div>
       <div id="result-content"></div>
     </div>
   </div>
@@ -2674,6 +3024,250 @@
 
     /* ── INIT ── */
     renderTopics();
+
+    /* ═══════════════════════════════════════════════
+       STUDENT NAME & NAVIGATION GUARDS
+    ═══════════════════════════════════════════════ */
+
+    // Lấy tên học sinh từ ô input (đã được lưu trong sessionStorage)
+    function getStudentName() {
+      return document.getElementById('student-name-input')?.value?.trim() || '';
+    }
+
+    // Kiểm tra tên trước khi cho vào bài
+    function requireName() {
+      const name = getStudentName();
+      if (!name) {
+        // Hiện thông báo và focus vào ô nhập tên
+        const inp = document.getElementById('student-name-input');
+        inp.style.borderColor = 'var(--c-danger)';
+        inp.style.boxShadow = '0 0 0 3px rgba(220,38,38,.18)';
+        inp.placeholder = '⚠️ Bạn phải nhập tên trước!';
+        inp.focus();
+        setTimeout(() => {
+          inp.style.borderColor = '';
+          inp.style.boxShadow = '';
+          inp.placeholder = 'Nhập tên của bạn vào đây...';
+        }, 2500);
+        return false;
+      }
+      return true;
+    }
+
+    // Wrapper bọc showPage('topics') — kiểm tra tên trước
+    function goToTopics() {
+      if (!requireName()) return;
+      showPage('topics');
+    }
+
+    // Wrapper bọc showExamSelect() — kiểm tra tên trước
+    function goToExam() {
+      if (!requireName()) return;
+      showExamSelect();
+    }
+
+    /* ═══════════════════════════════════════════════
+       LỊCH SỬ LÀM BÀI (LocalStorage)
+    ═══════════════════════════════════════════════ */
+
+    const LS_KEY = 'thihocky_history'; // Key dùng để lưu vào localStorage
+
+    // Lưu một lần làm bài vào LocalStorage
+    function saveToLocalHistory(studentName, lessonName, score, total) {
+      // Lấy dữ liệu cũ (nếu có)
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
+      } catch (e) { history = []; }
+
+      // Tạo bản tóm tắt mới
+      const record = {
+        date: new Date().toLocaleString('vi-VN'),  // Ngày giờ định dạng Việt
+        studentName: studentName,
+        lessonName: lessonName,
+        score: score,
+        total: total,
+        pct: Math.round((score / total) * 100)
+      };
+
+      // Chèn vào đầu mảng (lần mới nhất hiển thị đầu tiên)
+      history.unshift(record);
+
+      // Chỉ giữ tối đa 30 lần gần nhất để tránh đầy bộ nhớ
+      if (history.length > 30) history = history.slice(0, 30);
+
+      localStorage.setItem(LS_KEY, JSON.stringify(history));
+    }
+
+    // Mở modal hiển thị lịch sử
+    function openHistoryModal() {
+      renderHistoryList();
+      document.getElementById('history-modal').classList.add('open');
+    }
+
+    // Đóng modal lịch sử
+    function closeHistoryModal(event) {
+      // Nếu click vào overlay (bên ngoài modal box) thì đóng
+      if (!event || event.target === document.getElementById('history-modal')) {
+        document.getElementById('history-modal').classList.remove('open');
+      }
+    }
+
+    // Render danh sách lịch sử vào modal
+    function renderHistoryList() {
+      const container = document.getElementById('history-list');
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
+      } catch (e) { history = []; }
+
+      if (history.length === 0) {
+        container.innerHTML = `<div class="history-empty">
+          <div style="font-size:2rem;margin-bottom:.5rem;">📭</div>
+          <div>Chưa có lần làm bài nào được lưu.</div>
+          <div style="margin-top:.3rem;font-size:.75rem;">Sau khi nộp bài thành công, lịch sử sẽ hiện ở đây.</div>
+        </div>`;
+        return;
+      }
+
+      container.innerHTML = history.map(r => {
+        // Chọn màu theo điểm số
+        const col = r.pct >= 80 ? '#16a34a' : r.pct >= 50 ? '#d97706' : '#dc2626';
+        const emoji = r.pct >= 80 ? '🏆' : r.pct >= 50 ? '👍' : '💪';
+        return `<div class="history-item">
+          <div class="history-icon">${emoji}</div>
+          <div class="history-info">
+            <div class="history-name">👤 ${r.studentName}</div>
+            <div class="history-lesson">📚 ${r.lessonName}</div>
+            <div class="history-date">🕐 ${r.date}</div>
+          </div>
+          <div class="history-score" style="color:${col};">${r.score}/${r.total}<br><span style="font-size:.72rem;font-weight:600;">${r.pct}%</span></div>
+        </div>`;
+      }).join('');
+    }
+
+    // Xóa toàn bộ lịch sử
+    function clearHistory() {
+      if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử làm bài không?')) {
+        localStorage.removeItem(LS_KEY);
+        renderHistoryList(); // Render lại (sẽ hiện trạng thái "trống")
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       GỬI DỮ LIỆU LÊN GOOGLE SHEETS
+    ═══════════════════════════════════════════════ */
+
+    // ⚠️ QUAN TRỌNG: Dán URL Web App của bạn vào đây sau khi triển khai Google Script
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCGjFI1zW2EvuUreooCjpauBmcsWcX9q5vCLXqiJmO4Zfr76-uzmUTmUuYkGGW1p-W/exec';
+
+    async function sendDataToSheets() {
+      const studentName = getStudentName();
+
+      // Kiểm tra tên học sinh
+      if (!studentName) {
+        alert('⚠️ Không tìm thấy tên học sinh! Vui lòng quay lại trang chủ và nhập tên.');
+        return;
+      }
+
+      // Xác định tên bài học hiện tại
+      const lessonName = isExamMode
+        ? `Kiểm Tra Tổng Hợp (${[...examSelectedTopics].map(k => DATABASE[k].title).join(', ')})`
+        : `${DATABASE[currentTopic]?.title || 'Luyện tập'} - ${DIFF_LBL[selectedDiff] || ''}`;
+
+      // Tạo testID duy nhất bằng Timestamp
+      const testID = `TEST_${Date.now()}`;
+
+      // Thu thập mảng kết quả từng câu
+      const userAnswers = answers.map((ans, i) => ({
+        questionNo: i + 1,
+        questionText: Array.isArray(ans.q.q) ? ans.q.q.join(' ') : ans.q.q,
+        userAnswer: ans.userAns || '(Bỏ trống)',
+        correctAnswer: ans.q.a,
+        isCorrect: ans.correct
+      }));
+
+      // Chuẩn bị payload gửi lên server
+      const payload = {
+        studentName: studentName,
+        lessonName: lessonName,
+        testID: testID,
+        userAnswers: userAnswers
+      };
+
+      // ── Hiệu ứng Loading ──
+      const btn = document.getElementById('btn-send-sheets');
+      const statusEl = document.getElementById('sheets-status');
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Đang gửi dữ liệu...';
+      statusEl.className = 'sheets-status loading';
+      statusEl.textContent = '🔄 Đang kết nối Google Sheets, vui lòng chờ...';
+
+      try {
+        // Gửi dữ liệu qua fetch() phương thức POST
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          // Google Script yêu cầu text/plain để tránh CORS preflight
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          // ── Thành công ──
+          btn.innerHTML = '✅ Đã nộp bài thành công!';
+          btn.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+          statusEl.className = 'sheets-status success';
+          statusEl.textContent = `✅ Nộp bài thành công! Đã ghi ${userAnswers.length} dòng vào Google Sheets.`;
+
+          // Lưu vào LocalStorage sau khi nộp thành công
+          saveToLocalHistory(studentName, lessonName, score, questions.length);
+        } else {
+          throw new Error(result.message || 'Lỗi không xác định từ server');
+        }
+
+      } catch (err) {
+        // ── Xử lý lỗi ──
+        console.error('Lỗi khi gửi dữ liệu:', err);
+        btn.disabled = false;
+        btn.innerHTML = '🔄 Thử lại';
+        statusEl.className = 'sheets-status error';
+        statusEl.textContent = `❌ Lỗi: ${err.message}. Kiểm tra lại URL Web App và thử lại.`;
+      }
+    }
+
+    // Hiển thị tên học sinh trong phần nộp bài khi vào trang result
+    function updateSheetsBox() {
+      const name = getStudentName();
+      const label = document.getElementById('sheets-student-label');
+      const btn = document.getElementById('btn-send-sheets');
+      const statusEl = document.getElementById('sheets-status');
+      if (label) {
+        label.textContent = name
+          ? `Học sinh: ${name} — Nhấn để gửi kết quả lên Google Sheets cho thầy.`
+          : 'Vui lòng quay về trang chủ để nhập tên trước khi nộp bài.';
+      }
+      // Reset nút về trạng thái ban đầu mỗi lần vào trang kết quả mới
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '📤 Nộp bài lên Google Sheets';
+        btn.style.background = '';
+      }
+      if (statusEl) {
+        statusEl.className = 'sheets-status';
+        statusEl.textContent = '';
+      }
+    }
+
+    // Ghi đè showResult để gọi updateSheetsBox sau khi render
+    const _originalShowResult = showResult;
+    // Patch showPage để gọi updateSheetsBox khi vào trang result
+    const _originalShowPage = showPage;
+    showPage = function (id) {
+      _originalShowPage(id);
+      if (id === 'result') updateSheetsBox();
+    };
   </script>
 </body>
 
