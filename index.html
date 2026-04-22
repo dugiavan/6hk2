@@ -121,6 +121,16 @@
       }
     }
 
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     /* ── Credit bar ── */
     .credit-bar {
       position: fixed;
@@ -1544,10 +1554,21 @@
     <div class="modal-box">
       <button class="modal-close" onclick="closeHistoryModal()">✕</button>
       <div class="modal-title">📋 Lịch sử làm bài</div>
+      <!-- Ô tìm kiếm theo tên học sinh -->
+      <div style="position:relative;margin-bottom:1rem;">
+        <span
+          style="position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;">🔍</span>
+        <input type="text" id="history-search" placeholder="Tìm theo tên học sinh..."
+          oninput="filterHistoryByName(this.value)" style="width:100%;padding:.65rem 1rem .65rem 2.5rem;border-radius:50px;border:1.5px solid rgba(99,82,180,.22);
+                 background:rgba(255,255,255,.75);font-family:'DM Sans',sans-serif;font-size:.88rem;
+                 color:var(--c-text);outline:none;transition:var(--transition);"
+          onfocus="this.style.borderColor='var(--c-accent)';this.style.boxShadow='0 0 0 3px rgba(99,82,180,.12)'"
+          onblur="this.style.borderColor='rgba(99,82,180,.22)';this.style.boxShadow='none'" />
+      </div>
       <div id="history-list">
         <!-- Được render bằng JS -->
       </div>
-      <button class="btn-clear-history" onclick="clearHistory()">🗑️ Xóa toàn bộ lịch sử</button>
+      <button class="btn-clear-history" onclick="clearHistory()">🗑️ Xóa lịch sử cục bộ</button>
     </div>
   </div>
 
@@ -3525,23 +3546,22 @@
     }
 
     /* ═══════════════════════════════════════════════
-       LỊCH SỬ LÀM BÀI (LocalStorage)
+       LỊCH SỬ LÀM BÀI - V3 (Google Sheets + LocalStorage)
     ═══════════════════════════════════════════════ */
-
-    /* ═══════════════════════════════════════════════
-      LỊCH SỬ LÀM BÀI - PHIÊN BẢN NÂNG CẤP
-   ═══════════════════════════════════════════════ */
     const LS_KEY = 'english_test_history_v2';
 
-    // Lưu bài làm đầy đủ
+    // Bộ nhớ tạm cho dữ liệu đã fetch (tránh gọi lại mỗi lần mở modal)
+    let _sheetsCache = null;
+    let _sheetsCacheTime = 0;
+    const CACHE_TTL_MS = 60 * 1000; // cache 60 giây
+
+    // ─── Lưu bài làm đầy đủ (LocalStorage + chuẩn bị cho Sheets) ───
     function saveToLocalHistory() {
       const studentName = getStudentName();
       if (!studentName) return;
 
       let history = [];
-      try {
-        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
-      } catch (e) { history = []; }
+      try { history = JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch (e) { history = []; }
 
       const lessonName = isExamMode
         ? `Kiểm tra tổng hợp (${[...examSelectedTopics].map(k => DATABASE[k].title).join(', ')})`
@@ -3557,7 +3577,6 @@
         total: questions.length,
         pct: Math.round((score / questions.length) * 100),
         isExamMode: isExamMode,
-        // Lưu đầy đủ chi tiết để xem lại sau
         answers: answers.map(ans => ({
           q: {
             type: ans.q.type,
@@ -3572,103 +3591,210 @@
         }))
       };
 
-      history.unshift(record); // Thêm bài mới nhất lên đầu
-
-      // Giữ tối đa 50 bài
+      history.unshift(record);
       if (history.length > 50) history = history.slice(0, 50);
-
       localStorage.setItem(LS_KEY, JSON.stringify(history));
+
+      // Xóa cache để lần mở modal tiếp theo sẽ fetch lại dữ liệu mới
+      _sheetsCache = null;
     }
 
-    // Render danh sách lịch sử
-    function renderHistoryList() {
+    // ─── Fetch dữ liệu từ Google Sheets (GET) ───
+    async function fetchHistoryFromSheets() {
+      // Dùng cache nếu còn tươi
+      if (_sheetsCache && (Date.now() - _sheetsCacheTime) < CACHE_TTL_MS) {
+        return _sheetsCache;
+      }
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'GET',
+        // redirect: 'follow' cần thiết cho Google Apps Script
+        redirect: 'follow'
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const data = await response.json();
+
+      // Server trả về { status: 'success', records: [...] }
+      if (data.status !== 'success') throw new Error(data.message || 'Server trả lỗi');
+
+      // Parse cột recordJSON ngược thành object
+      const records = (data.records || []).map(row => {
+        try {
+          // Kiểm tra xem recordJSON có dữ liệu không
+          if (row.recordJSON && row.recordJSON.trim() !== "") {
+            const parsed = JSON.parse(row.recordJSON);
+
+            // Đảm bảo dữ liệu sau khi parse có cấu trúc đúng
+            return {
+              ...parsed,
+              // Ưu tiên lấy date từ cột date của Sheets nếu trong JSON không có
+              date: parsed.date || row.date || '',
+              studentName: parsed.studentName || row.studentName || 'Ẩn danh'
+            };
+          }
+          throw new Error("Không có dữ liệu JSON");
+        } catch (e) {
+          console.warn("Dòng này không có dữ liệu Dashboard chi tiết:", row);
+          // Dự phòng: Dựng lại object từ các cột lẻ nếu không có JSON
+          return {
+            id: row.testID || ('row_' + Date.now()),
+            date: row.date || '',
+            timestamp: 0,
+            studentName: row.studentName || 'Ẩn danh',
+            lessonName: row.lessonName || '',
+            score: Number(row.score) || 0,
+            total: Number(row.total) || 0,
+            pct: Number(row.pct) || 0,
+            answers: [] // Chấp nhận trống nếu dòng này trên Sheets không có JSON
+          };
+        }
+      });
+
+      _sheetsCache = records;
+      _sheetsCacheTime = Date.now();
+      return records;
+    }
+
+    // ─── Render danh sách lịch sử (nhận dữ liệu từ tham số hoặc localStorage) ───
+    function renderHistoryList(historyData, filterName = '') {
       const container = document.getElementById('history-list');
-      let history = [];
-      try {
-        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
-      } catch (e) { history = []; }
+      let history = historyData || [];
+
+      // Lọc theo tên nếu có
+      if (filterName.trim()) {
+        const kw = filterName.trim().toLowerCase();
+        history = history.filter(r => (r.studentName || '').toLowerCase().includes(kw));
+      }
 
       if (history.length === 0) {
         container.innerHTML = `
-            <div class="history-empty">
-                <div style="font-size:2.5rem;margin-bottom:1rem;">📭</div>
-                <div>Chưa có bài làm nào</div>
-                <div style="margin-top:0.5rem;font-size:0.85rem;color:#888;">Hoàn thành và nộp bài để lịch sử được lưu tự động</div>
-            </div>`;
+          <div class="history-empty">
+            <div style="font-size:2.5rem;margin-bottom:1rem;">${filterName ? '🔍' : '📭'}</div>
+            <div>${filterName ? `Không tìm thấy bài làm của "<strong>${filterName}</strong>"` : 'Chưa có bài làm nào'}</div>
+            <div style="margin-top:0.5rem;font-size:0.85rem;color:#888;">
+              ${filterName ? 'Thử tìm tên khác hoặc xóa bộ lọc.' : 'Hoàn thành và nộp bài để lịch sử được lưu tự động'}
+            </div>
+          </div>`;
         return;
       }
 
       container.innerHTML = history.map((r, index) => {
         const col = r.pct >= 80 ? '#16a34a' : r.pct >= 50 ? '#d97706' : '#dc2626';
         const emoji = r.pct >= 80 ? '🏆' : r.pct >= 50 ? '👍' : '💪';
-
         return `
-        <div class="history-item" onclick="viewHistoryDetail(${index})" style="cursor:pointer;">
-            <div class="history-icon">${emoji}</div>
-            <div class="history-info">
-                <div class="history-name">👤 ${r.studentName}</div>
-                <div class="history-lesson">📚 ${r.lessonName}</div>
-                <div class="history-date">🕐 ${r.date}</div>
-            </div>
-            <div class="history-score" style="color:${col};">
-                ${r.score}/${r.total}<br>
-                <span style="font-size:0.75rem;">${r.pct}%</span>
-            </div>
+        <div class="history-item" onclick="viewHistoryDetailFromData(${index}, 'sheets')" style="cursor:pointer;"
+             data-idx="${index}">
+          <div class="history-icon">${emoji}</div>
+          <div class="history-info">
+            <div class="history-name">👤 ${r.studentName}</div>
+            <div class="history-lesson">📚 ${r.lessonName}</div>
+            <div class="history-date">🕐 ${r.date}</div>
+          </div>
+          <div class="history-score" style="color:${col};">
+            ${r.score}/${r.total}<br>
+            <span style="font-size:0.75rem;">${r.pct}%</span>
+          </div>
         </div>`;
       }).join('');
+
+      // Gán lại data vào DOM để viewHistoryDetailFromData đọc được
+      container._historyData = history;
     }
 
-    // Xem chi tiết một bài trong lịch sử
-    function viewHistoryDetail(index) {
-      let history = [];
-      try {
-        history = JSON.parse(localStorage.getItem(LS_KEY)) || [];
-      } catch (e) { return; }
-
+    // ─── Xem chi tiết bài làm (đọc từ DOM cache) ───
+    function viewHistoryDetailFromData(index, source) {
+      const container = document.getElementById('history-list');
+      const history = container._historyData || [];
       const record = history[index];
       if (!record) return;
 
-      // Tạo nội dung chi tiết giống trang Result
       let det = '';
-      record.answers.forEach((ans, i) => {
-        const qt = Array.isArray(ans.q.q) ? ans.q.q.join(' ') : ans.q.q;
+      (record.answers || []).forEach((ans, i) => {
+        const qt = Array.isArray(ans.q.q) ? ans.q.q.join(' ') : (ans.q.q || '');
         det += `
         <div class="detail-item ${ans.correct ? 'ci' : 'wi'}">
-            <div class="di-head">
-                <span class="di-badge ${ans.correct ? 'c' : 'w'}">${ans.correct ? 'Đúng' : 'Sai'}</span>
-                <span class="di-type">${TYPE_LBL[ans.q.type] || ans.q.type}</span>
-                <span class="di-num">Câu ${i + 1}</span>
-            </div>
-            <div class="di-q">${qt}</div>
-            <div class="di-ans">Bạn trả lời: <strong style="color:${ans.correct ? 'var(--c-success)' : 'var(--c-danger)'};">${ans.userAns || '(Bỏ trống)'}</strong></div>
-            ${!ans.correct ? `
+          <div class="di-head">
+            <span class="di-badge ${ans.correct ? 'c' : 'w'}">${ans.correct ? 'Đúng' : 'Sai'}</span>
+            <span class="di-type">${TYPE_LBL[ans.q.type] || ans.q.type}</span>
+            <span class="di-num">Câu ${i + 1}</span>
+          </div>
+          <div class="di-q">${qt}</div>
+          <div class="di-ans">Bạn trả lời: <strong style="color:${ans.correct ? 'var(--c-success)' : 'var(--c-danger)'};">${ans.userAns || '(Bỏ trống)'}</strong></div>
+          ${!ans.correct ? `
             <div class="di-ans">Đáp án đúng: <strong style="color:var(--c-success);">${ans.q.a}</strong></div>
             ${ans.q.lesson ? `<div class="lesson-box"><span class="li">📚</span><div class="lb"><span class="ll">Bài học: </span>${ans.q.lesson}</div></div>` : ''}
-            ` : ''}
+          ` : ''}
         </div>`;
       });
 
-      const html = `
-        <div style="padding:1.2rem;">
-            <div style="margin-bottom:1.5rem;">
-                <button onclick="closeHistoryModal();openHistoryModal()" style="font-size:0.9rem;padding:0.5rem 1rem;">← Quay lại danh sách</button>
-            </div>
-            <h2 style="margin:0 0 0.5rem 0;">📋 Chi tiết bài làm</h2>
-            <p><strong>${record.studentName}</strong> • ${record.lessonName}</p>
-            <p style="color:#666;font-size:0.9rem;">${record.date} • ${record.score}/${record.total} (${record.pct}%)</p>
-            
-            <div class="detail-section glass" style="margin-top:1.5rem;">
-                ${det}
-            </div>
+      if (!det) {
+        det = `<div style="text-align:center;padding:2rem;color:var(--c-muted);">
+          <div style="font-size:2rem;margin-bottom:.5rem;">📄</div>
+          Chi tiết từng câu chưa có trong bản ghi này.
         </div>`;
+      }
 
-      document.getElementById('history-list').innerHTML = html;
+      container.innerHTML = `
+        <div style="padding:1.2rem;">
+          <div style="margin-bottom:1.5rem;">
+            <button onclick="openHistoryModal()" style="font-size:0.9rem;padding:0.5rem 1rem;background:none;border:1.5px solid rgba(99,82,180,.28);border-radius:50px;cursor:pointer;color:var(--c-accent);font-weight:600;">
+              ← Quay lại danh sách
+            </button>
+          </div>
+          <h2 style="margin:0 0 0.5rem 0;">📋 Chi tiết bài làm</h2>
+          <p><strong>${record.studentName}</strong> • ${record.lessonName}</p>
+          <p style="color:#666;font-size:0.9rem;">${record.date} • ${record.score}/${record.total} (${record.pct}%)</p>
+          <div class="detail-section glass" style="margin-top:1.5rem;">${det}</div>
+        </div>`;
     }
 
-    // Các hàm modal giữ nguyên hoặc chỉnh nhẹ
-    function openHistoryModal() {
-      renderHistoryList();
-      document.getElementById('history-modal').classList.add('open');
+    // ─── Mở modal lịch sử: ưu tiên kéo từ Sheets, fallback LocalStorage ───
+    async function openHistoryModal() {
+      const modal = document.getElementById('history-modal');
+      const container = document.getElementById('history-list');
+      const searchBox = document.getElementById('history-search');
+      if (searchBox) searchBox.value = '';
+      modal.classList.add('open');
+
+      // Hiển thị trạng thái loading
+      container.innerHTML = `
+        <div class="history-empty">
+          <div style="font-size:2.5rem;margin-bottom:1rem;animation:spin 1s linear infinite;display:inline-block;">⏳</div>
+          <div style="font-weight:600;color:var(--c-accent);">Đang tải dữ liệu từ Google Sheets...</div>
+          <div style="margin-top:0.5rem;font-size:0.85rem;color:#888;">Vui lòng chờ một chút</div>
+        </div>`;
+
+      try {
+        const sheetsData = await fetchHistoryFromSheets();
+        renderHistoryList(sheetsData);
+      } catch (err) {
+        console.warn('Không lấy được từ Sheets, dùng LocalStorage:', err);
+        // Fallback: đọc LocalStorage
+        let localHistory = [];
+        try { localHistory = JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch (e) { localHistory = []; }
+
+        // Hiện thông báo nhỏ rồi render dữ liệu local
+        container.innerHTML = `
+          <div style="display:flex;align-items:center;gap:.6rem;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);
+               border-radius:var(--radius-sm);padding:.7rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#92400e;">
+            ⚠️ Không kết nối được Google Sheets. Đang hiển thị dữ liệu cục bộ.
+          </div>`;
+        const tmp = document.createElement('div');
+        container._historyData = localHistory;
+        renderHistoryList(localHistory);
+      }
+    }
+
+    // ─── Tìm kiếm theo tên học sinh ───
+    function filterHistoryByName(keyword) {
+      const container = document.getElementById('history-list');
+      const allData = container._historyData || [];
+      renderHistoryList(allData, keyword);
+      // Gán lại vì renderHistoryList tạo DOM mới và ghi đè _historyData với subset
+      // → cần giữ full data để filter lại
+      document.getElementById('history-list')._historyData = allData;
     }
 
     function closeHistoryModal(event) {
@@ -3678,9 +3804,10 @@
     }
 
     function clearHistory() {
-      if (confirm('Xóa toàn bộ lịch sử? (Không thể khôi phục)')) {
+      if (confirm('Xóa toàn bộ lịch sử cục bộ? (Dữ liệu trên Google Sheets không bị xóa)')) {
         localStorage.removeItem(LS_KEY);
-        renderHistoryList();
+        _sheetsCache = null;
+        openHistoryModal();
       }
     }
 
@@ -3722,7 +3849,35 @@
         studentName: studentName,
         lessonName: lessonName,
         testID: testID,
-        userAnswers: userAnswers
+        score: score,
+        total: questions.length,
+        pct: Math.round((score / questions.length) * 100),
+        date: new Date().toLocaleString('vi-VN'),
+        userAnswers: userAnswers,
+        // Toàn bộ record dưới dạng JSON string — để doGet() có thể trả về đầy đủ
+        recordJSON: JSON.stringify({
+          id: testID,
+          date: new Date().toLocaleString('vi-VN'),
+          timestamp: Date.now(),
+          studentName: studentName,
+          lessonName: lessonName,
+          score: score,
+          total: questions.length,
+          pct: Math.round((score / questions.length) * 100),
+          isExamMode: isExamMode,
+          answers: answers.map(ans => ({
+            q: {
+              type: ans.q.type,
+              q: ans.q.q,
+              a: ans.q.a,
+              lesson: ans.q.lesson || '',
+              options: ans.q.options || null,
+              error_word: ans.q.error_word || null
+            },
+            userAns: ans.userAns || '',
+            correct: ans.correct
+          }))
+        })
       };
 
       // ── Hiệu ứng Loading ──
